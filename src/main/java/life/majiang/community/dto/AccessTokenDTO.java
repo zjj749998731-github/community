@@ -1,6 +1,10 @@
 package life.majiang.community.dto;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
+@Component
+@ConfigurationProperties(prefix = "github")
 public class AccessTokenDTO {
     private String client_id;
     private String client_secret;

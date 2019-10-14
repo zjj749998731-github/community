@@ -7,11 +7,12 @@ import life.majiang.community.model.User;
 import life.majiang.community.provider.GitHubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
@@ -29,7 +30,8 @@ public class AuthorizeController {
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code")String code,
                            @RequestParam(name = "state")String state,
-                           HttpServletRequest request){
+                           HttpServletRequest request,
+                           HttpServletResponse response){
         //以下设置已经写入配置文件中了
 //        AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
 //        accessTokenDTO.setClient_id("8543c922478e7c7fe5ca");
@@ -42,15 +44,15 @@ public class AuthorizeController {
         if(null != githubUser){
             //登录成功
             User user = new User();
+            String token = UUID.randomUUID().toString();
+            user.setToken(token);
             user.setName(githubUser.getName());
-            user.setToken(UUID.randomUUID().toString());
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             userMapper.addUser(user);
-
-            request.getSession().setAttribute("user",githubUser);
-
+            //将token写入Cookie中，响应返回给浏览器
+            response.addCookie(new Cookie("token",token));
             return "redirect:/";
         }else{
             //登录失败

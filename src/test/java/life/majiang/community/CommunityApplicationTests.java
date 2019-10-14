@@ -1,6 +1,8 @@
 package life.majiang.community;
 
 import life.majiang.community.dto.AccessTokenDTO;
+import life.majiang.community.mapper.UserMapper;
+import life.majiang.community.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class CommunityApplicationTests {
 
     @Autowired
     JdbcTemplate jdbcTemplate;  //JdbcTemplate类可以直接操作数据库,执行增删改查
+
+    @Autowired
+    UserMapper userMapper;
 
     @Test
     public void contextLoads() {
@@ -63,4 +68,11 @@ public class CommunityApplicationTests {
 
     }
 
+    @Test
+    public void testListUser()  {
+        List<User> users = userMapper.findAll();
+        for (User user : users) {
+            System.out.println(user.getName() + ":" + user.getAccountId());
+        }
+    }
 }

@@ -75,4 +75,10 @@ public class CommunityApplicationTests {
             System.out.println(user.getName() + ":" + user.getAccountId());
         }
     }
+
+    @Test
+    public void testOneUser()  {
+       User user = userMapper.findById(3);
+       System.out.println(user.getName() + ":" + user.getAccountId());
+    }
 }

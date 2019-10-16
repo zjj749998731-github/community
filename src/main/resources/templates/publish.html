@@ -5,16 +5,44 @@
     <title>发布 - 剑杰社区</title>
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/local.css">
     <script type="application/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        function check(){
+            var nloginUser = document.getElementById("loginUser");
+            var ntitle = document.getElementById("title");
+            var ndescription = document.getElementById("description");
+            var ntag = document.getElementById("tag");
+
+            if(ntitle.value == ""){
+                alert("问题标题不能为空！！");
+                ntitle.focus();
+                return false;
+            }else if(ndescription.value == ""){
+                alert("问题补充不能为空！！");
+                ndescription.focus();
+                return false;
+            }else if(ntag.value == ""){
+                alert("标签不能为空！！");
+                ntag.focus();
+                return false;
+            }else if(nloginUser == null || nloginUser.value == "") {
+                alert("请先登录！！！");
+                return false;
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">剑杰社区</span>
             </button>
-            <a class="navbar-brand" href="#">剑杰社区</a>
+            <a class="navbar-brand" href="/">剑杰社区</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -28,30 +56,64 @@
                 <li th:unless="${session.user} != null">  <!--th:if="${session.user} == null"-->
                     <a href="https://github.com/login/oauth/authorize?client_id=8543c922478e7c7fe5ca&redirect_uri=http://localhost:8887/callback&scope=user&state=1">登录</a>
                 </li>
-                <li class="dropdown"  th:if="${session.user} != null">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" th:text="${session.user.getName()}">我 <span class="caret"></span></a>
+                <li class="dropdown" th:if="${session.user} != null">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false" th:text="${session.user.getName()}">我 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">消息中心</a></li>
                         <li><a href="#">个人资料</a></li>
                         <li><a href="#">退出登录</a></li>
                     </ul>
                 </li>
+                <li>
+                    <a href="/">返回首页</a>
+                </li>
+                <li th:if="${session.user} != null">
+                    <a href="/layout">注销</a>
+                </li>
             </ul>
         </div>
     </div>
+</nav>
 
-    <div class="container-fluid">
-        <div class="row">
-            <!--栅格系统: 随着屏幕或视口尺寸的增加，系统会自动分为最多12列。适应手机、平板、电脑等不同客户端尺寸的需求-->
-            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+<div class="container-fluid main" >
+    <div class="row" >
+        <!--栅格系统: 随着屏幕或视口尺寸的增加，系统会自动分为最多12列。适应手机、平板、电脑等不同客户端尺寸的需求-->
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >  <!--style="background-color: red;height: 200px"-->
+            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
+            <hr/>
+            <form action="/publish" method="post" onsubmit="return check()">
+                <div class="form-group">
+                    <label for="title">问题标题（简单扼要）:</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="问题标题" >
+                </div>
+                <div class="form-group">
+                    <label for="description">问题补充（必填，请参照右侧提示）：</label>
+                    <textarea class="form-control" id="description" name="description" cols="30" rows="10" ></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="tag">添加标签：</label>
+                    <!--th:text="${question}==null?'':${question.getTag()}"-->
+                    <input type="text" class="form-control" id="tag" name="tag" placeholder="请输入标签，以“，”号隔开" >
+                </div>
+                <div id = "isLogin">
+                    <input  id="loginUser" type="text"  th:value="${session.user}"/>
+                </div>
+                <!--<span class="btn btn-primary" th:if="${msg}!= null" th:text="${msg}">我采用了上面的js警告框方式</span>-->
+                <button type="submit" class="btn btn-success">确认发布</button>
+            </form>
+        </div>
 
-            </div>
-            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-
-            </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <h3>问题发起指南</h3>
+            <ul>
+                <li>问题标题：请用精简的语言描述您发布的问题，不超过25个字</li>
+                <li>问题补充：请详细补充您的问题内容，并确保问题描述清晰直观，并提供一些相关资料</li>
+                <li>选择标签：选择一个或多个合适的标签，以逗号隔开，并且每个标签不超过10个字</li>
+            </ul>
         </div>
     </div>
+</div>
 
-</nav>
 </body>
 </html>

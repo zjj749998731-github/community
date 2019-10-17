@@ -1,10 +1,12 @@
 package life.majiang.community.controller;
 
+import life.majiang.community.dto.PageMsgDTO;
 import life.majiang.community.dto.QuestionDTO;
 import life.majiang.community.mapper.QuestionMapper;
 import life.majiang.community.mapper.UserMapper;
 import life.majiang.community.model.Question;
 import life.majiang.community.model.User;
+import life.majiang.community.service.QuestionDTOService;
 import life.majiang.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,9 +30,16 @@ public class IndexController {
     @Autowired
     QuestionService questionService;
 
+    @Autowired
+    QuestionDTOService questionDTOService;
+
 
     @GetMapping("/")
-    public String index(HttpServletRequest request,Model model){  //浏览器发送过来的请求会携带Cookie信息
+    public String index(HttpServletRequest request,    //浏览器发送过来的请求会携带Cookie信息
+                        Model model,
+                        @RequestParam(required = false, name = "page", defaultValue = "1")String  strPage,
+                        @RequestParam(required = false, name = "pageSize", defaultValue = "5")String strPageSize){
+
         Cookie[] cookies = request.getCookies();
         if(null != cookies && cookies.length != 0){   //当页面清理痕迹时，Cookie会清空掉
             for (Cookie cookie : cookies) {
@@ -44,9 +53,12 @@ public class IndexController {
                 }
             }
         }
-        List<Question> questions = questionMapper.findQuestions();
-//        List<QuestionDTO> questions = questionService.getQuestionDTOList(); //视频采用此方式
-        model.addAttribute("questions",questions);
+
+        Integer page = Integer.valueOf(strPage);
+        Integer pageSize = Integer.valueOf(strPageSize);
+        PageMsgDTO pageMsgDTO = questionService.getQuestionList(page,pageSize);
+//        List<QuestionDTO> questions = questionDTOService.getQuestionDTOList(currentPage,pageSize); //视频采用此方式
+        model.addAttribute("pageMsgDTO",pageMsgDTO);
         return "index";
     }
 

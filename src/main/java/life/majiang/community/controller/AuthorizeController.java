@@ -27,6 +27,8 @@ public class AuthorizeController {
     @Autowired
     UserMapper userMapper;
 
+
+
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code")String code,
                            @RequestParam(name = "state")String state,
@@ -52,7 +54,7 @@ public class AuthorizeController {
             user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(githubUser.getAvatarUrl());  //保存头像图片
             userMapper.addUser(user);
-            //将token写入Cookie中，响应返回给浏览器 --- 为了在
+            //将token写入Cookie中，响应返回给浏览器 --- 为了在登录首页时，能够判断是否存在本用户
             response.addCookie(new Cookie("token",token));
             return "redirect:/";
         }else{

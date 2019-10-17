@@ -54,7 +54,7 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
             <h2><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>发现</h2>
             <hr/>
-            <div class="media" th:each="question:${questions}">
+            <div class="media" th:each="question:${pageMsgDTO.getQuestionList()}">
                 <div class="media-left">
                     <a href="#" th:href="${question.getAvatarUrl()}">
                         <img class="img-circle headPic" src="" th:src="${question.getAvatarUrl()}" alt="头像">
@@ -70,13 +70,46 @@
                     </div>
                 </div>
             </div>
+            <nav aria-label="Page navigation ">
+                <ul class="pagination fytb">
+                    <li th:if="${pageMsgDTO.showFirstPage}">
+                        <a href="#" aria-label="Previous" th:href="@{/(page=1)}">
+                            <span aria-hidden="true">&lt;&lt;</span>
+                        </a>
+                    </li>
+                    <li th:if="${pageMsgDTO.showPreviousPage}">
+                        <a href="#" aria-label="Previous" th:href="@{/(page=${pageMsgDTO.getSelectedPage() - 1})}">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                    </li>
+
+                    <li th:each="page:${pageMsgDTO.getPages()}" th:class="${pageMsgDTO.getSelectedPage() == page}?'active':''">
+                        <a href="#" th:text="${page}" th:href="@{/(page=${page})}" >页码</a>
+                    </li>
+
+                    <li th:if="${pageMsgDTO.showNextPage}">
+                        <a href="#" aria-label="Next" th:href="@{/(page=${pageMsgDTO.getSelectedPage() + 1})}">
+                            <span aria-hidden="true">&gt;</span>
+                        </a>
+                    </li>
+                    <li th:if="${pageMsgDTO.showLastPage}">
+                        <a href="#" aria-label="Next" th:href="@{/(page=${pageMsgDTO.totalPage})}">
+                            <span aria-hidden="true">&gt;&gt;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
 
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <h3>热门话题</h3>
         </div>
     </div>
+
+
+
 </div>
+
 
 
 </body>

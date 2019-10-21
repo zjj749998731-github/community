@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${sectionName}">个人中心</title>
+    <!-- 1.由于进入该页面的路径是/profile/questions，而进入index.html和publish.html的路径为根路径'/'-->
+    <!-- 1.所以该页面的css、js的引用路径要在最前面加上/ ，而index.html和publish.html的引用路径不需要在最前面加上/  -->
+    <!-- 2.项目做到后面的时候，由于路径的变化，index.html和publish.html的引用路径也在最前面加上了/ -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/local.css">
+    <script type="application/javascript" src="/js/jquery-1.12.4.min.js"></script>
+    <script type="application/javascript" src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!--引入标题栏-->
+<div th:replace="~{index::topbar}"></div>
+
+<div class="container-fluid main" >
+    <div class="row" >
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
+            <h2><span th:text="${sectionName}"></span></h2>
+            <hr/>
+            <div class="media" th:each="question:${pageMsgDTO.getQuestionList()}">
+                <div class="media-left">
+                    <a href="#" th:href="${question.getAvatarUrl()}">
+                        <img class="img-circle headPic" src="" th:src="${question.getAvatarUrl()}" alt="头像">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <a href="#" class="media-heading" th:text="${question.getTitle()}">问题标题</a>
+                    <div>
+                        <span th:text="${question.getDescription()}">点击浏览</span><br/>
+                        <span class="rvt">
+                            <span th:text="${question.getCommentCount()}"></span>个回复 • <span th:text="${question.getViewCount()}"></span>次浏览 • <span th:text="${#dates.format(question.getGmtCreate(),'yyyy-MM-dd')}"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <nav aria-label="Page navigation ">
+                <ul class="pagination fytb">
+                    <li th:if="${pageMsgDTO.showFirstPage}">
+                        <a href="#" aria-label="Previous" th:href="@{'/profile/' + ${section}(page=1)}">
+                            <span aria-hidden="true">&lt;&lt;</span>
+                        </a>
+                    </li>
+                    <li th:if="${pageMsgDTO.showPreviousPage}">
+                        <a href="#" aria-label="Previous" th:href="@{'/profile/' + ${section}(page=${pageMsgDTO.getSelectedPage() - 1})}">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                    </li>
+
+                    <li th:each="page:${pageMsgDTO.getPages()}" th:class="${pageMsgDTO.getSelectedPage() == page}?'active':''">
+                        <a href="#" th:text="${page}" th:href="@{'/profile/' + ${section}(page=${page})}" >页码</a>
+                    </li>
+
+                    <li th:if="${pageMsgDTO.showNextPage}">
+                        <a href="#" aria-label="Next" th:href="@{'/profile/' + ${section}(page=${pageMsgDTO.getSelectedPage() + 1})}" th:if="${pageMsgDTO.getSelectedPage() > 1}">
+                            <span aria-hidden="true">&gt;</span>
+                        </a>
+                    </li>
+                    <li th:if="${pageMsgDTO.showLastPage}">
+                        <a href="#" aria-label="Next" th:href="@{'/profile/' + ${section}(page=${pageMsgDTO.totalPage})}" th:if="${pageMsgDTO.getSelectedPage() > 1}">
+                            <span aria-hidden="true">&gt;&gt;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <div class="list-group profileRight">
+                <a href="/profile/questions" class="list-group-item" th:class="${section} == 'questions'?'list-group-item active':'list-group-item'">我的问题<span class="badge" th:text="${pageMsgDTO.getTotalCount()}">14</span></a>
+                <a href="/profile/replies" class="list-group-item" th:class="${section} == 'replies'?'list-group-item active':'list-group-item'">最新回复<span class="badge">14</span></a>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+
+</body>
+</html>

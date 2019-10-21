@@ -20,6 +20,7 @@ public class PageMsgDTO {
     private Integer selectedPage;
     private Integer totalPage;
     private List<Integer> pages = new ArrayList<>();  //分页图标里的数字
+    private Integer totalCount;   //标记我的问题的小数字
 
     public void setPageMsg(Integer totalPage,Integer page) {
         //为当前页码高亮做准备

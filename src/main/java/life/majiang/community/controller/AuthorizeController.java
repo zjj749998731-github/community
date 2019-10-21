@@ -2,9 +2,9 @@ package life.majiang.community.controller;
 
 import life.majiang.community.dto.AccessTokenDTO;
 import life.majiang.community.dto.GithubUser;
-import life.majiang.community.mapper.UserMapper;
 import life.majiang.community.model.User;
 import life.majiang.community.provider.GitHubProvider;
+import life.majiang.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +25,7 @@ public class AuthorizeController {
     AccessTokenDTO accessTokenDTO;
 
     @Autowired
-    UserMapper userMapper;
+    UserService userService;
 
 
 
@@ -50,10 +50,13 @@ public class AuthorizeController {
             user.setToken(token);
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(githubUser.getAvatarUrl());  //保存头像图片
-            userMapper.addUser(user);
+            /**
+             * 根据用户的accountId进行判断：
+             * 如果accountId在数据库中已存在,则对该用户进行更新操作；
+             * 如果accountId在数据库中不存在,则对该用户进行添加操作。
+             */
+            userService.addOrUpdate(user);
             //将token写入Cookie中，响应返回给浏览器 --- 为了在登录首页时，能够判断是否存在本用户
             response.addCookie(new Cookie("token",token));
             return "redirect:/";

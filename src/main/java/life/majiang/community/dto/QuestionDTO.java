@@ -3,6 +3,9 @@ package life.majiang.community.dto;
 import life.majiang.community.model.User;
 import lombok.Data;
 
+/**
+ * 视频采用该QuestionDTO，而我没有用到此类
+ */
 @Data
 public class QuestionDTO {
     private Integer id;

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 视频采用该QuestionService，而我没有用到此类
+ * 视频采用该QuestionDTOService，而我没有用到此类
  */
 @Service
 public class QuestionDTOService {

@@ -28,10 +28,10 @@ public class PublishController {
     public String addQuestion(Question question, HttpServletRequest request,Model model){
 
         User user = (User) request.getSession().getAttribute("user");  //经过拦截器处理后Session会携带User、token信息
-//        if(user == null){   //用户不存在时，直接返回发布页面，提示用户未登录
-//            model.addAttribute("msg","用户未登录");
-//            return "publish";
-//        }
+        if(user == null){   //用户不存在时，直接返回发布页面，提示用户未登录
+            model.addAttribute("msg","用户未登录");
+            return "publish";
+        }
         question.setCreatorId(user.getId());   //用户存在时，取出用户信息
         question.setGmtCreate(System.currentTimeMillis());
         question.setGmtModified(question.getGmtCreate());

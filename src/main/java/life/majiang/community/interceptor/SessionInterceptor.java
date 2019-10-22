@@ -20,8 +20,7 @@ public class SessionInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         User user = null;
-        //浏览器发送过来的请求会携带Cookie信息
-        Cookie[] cookies = request.getCookies();
+        Cookie[] cookies = request.getCookies();   //浏览器发送过来的请求会携带Cookie信息
         if(null != cookies && cookies.length != 0){   //当页面清理痕迹时，Cookie会清空掉
             for (Cookie cookie : cookies) {
                 if(cookie.getName().equals("token")){

@@ -28,7 +28,7 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <a href="#" class="media-heading" th:text="${question.getTitle()}">问题标题</a>
+                    <a href="#" class="media-heading" th:text="${question.getTitle()}" th:href="@{'/question/' + ${question.getId()}}">问题标题</a>
                     <div>
                         <span th:text="${question.getDescription()}">点击浏览</span><br/>
                         <span class="rvt">

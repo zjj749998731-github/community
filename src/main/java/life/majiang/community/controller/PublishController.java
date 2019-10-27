@@ -1,8 +1,8 @@
 package life.majiang.community.controller;
 
-import life.majiang.community.mapper.QuestionMapper;
 import life.majiang.community.model.Question;
 import life.majiang.community.model.User;
+import life.majiang.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,26 +16,28 @@ import javax.servlet.http.HttpServletRequest;
 public class PublishController {
 
     @Autowired
-    QuestionMapper questionMapper;
-
+    QuestionService questionService;
 
     @GetMapping("/publish")
-    public String publish(@PathVariable(name = "id" ,required = false)Integer id){
+    public String publish(){
+        return "publish";
+    }
+
+    @GetMapping("/publish/{id}")
+    public String showQuestion(@PathVariable(name = "id")Integer id,Model model){
+        Question question = questionService.findQuestionById(id);
+        model.addAttribute("question",question);
         return "publish";
     }
 
     @PostMapping("/publish")
-    public String addQuestion(Question question, HttpServletRequest request,Model model){
-
+    public String addOrUpdateQuestion(Question question, HttpServletRequest request,Model model){
         User user = (User) request.getSession().getAttribute("user");  //经过拦截器处理后Session会携带User、token信息
         if(user == null){   //用户不存在时，直接返回发布页面，提示用户未登录
             model.addAttribute("msg","用户未登录");
             return "publish";
         }
-        question.setCreatorId(user.getId());   //用户存在时，取出用户信息
-        question.setGmtCreate(System.currentTimeMillis());
-        question.setGmtModified(question.getGmtCreate());
-        questionMapper.addQuestion(question);
+        questionService.createOrUpdate(question,request);
         model.addAttribute("question",question);
         return "redirect:/";
     }

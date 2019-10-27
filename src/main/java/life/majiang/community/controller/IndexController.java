@@ -1,8 +1,6 @@
 package life.majiang.community.controller;
 
 import life.majiang.community.dto.PageMsgDTO;
-import life.majiang.community.dto.QuestionDTO;
-import life.majiang.community.mapper.QuestionMapper;
 import life.majiang.community.mapper.UserMapper;
 import life.majiang.community.service.QuestionDTOService;
 import life.majiang.community.service.QuestionService;
@@ -23,13 +21,10 @@ public class IndexController {
     UserMapper userMapper;
 
     @Autowired
-    QuestionMapper questionMapper;
-
-    @Autowired
     QuestionService questionService;
 
-    @Autowired
-    QuestionDTOService questionDTOService;
+//    @Autowired
+//    QuestionDTOService questionDTOService;   //视频用，我没用到
 
 
     @GetMapping("/")

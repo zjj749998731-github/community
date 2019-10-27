@@ -31,7 +31,7 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {
         //在之前的SpringMVC中，对于静态资源的访问，拦截器要去除掉静态资源的访问路径
         //而SpringBoot已经做好了静态资源的映射，无需处理了
         registry.addInterceptor(sessionInterceptor).addPathPatterns("/**")
-                .excludePathPatterns("https://github.com/login/oauth/authorize","/callback","/quit","/logout");
+                .excludePathPatterns("https://github.com/login/oauth/authorize","/callback","/logout");
     }
 
 

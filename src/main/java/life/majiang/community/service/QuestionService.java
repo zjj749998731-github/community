@@ -1,12 +1,17 @@
 package life.majiang.community.service;
 
 import life.majiang.community.dto.PageMsgDTO;
+import life.majiang.community.exception.MyException;
+import life.majiang.community.exception.MyExceptionCodeEnum;
 import life.majiang.community.mapper.QuestionMapper;
 import life.majiang.community.model.Question;
+import life.majiang.community.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+
 
 
 @Service
@@ -63,6 +68,38 @@ public class QuestionService {
 
 
     public Question findQuestionById(Integer id) {
-        return questionMapper.findQuestionById(id);
+        Question question = questionMapper.findQuestionById(id);
+        if(question == null){
+            throw new MyException(MyExceptionCodeEnum.QUESTION_NOT_FOUND);
+        }
+        return question;
+    }
+
+
+    public void createOrUpdate(Question question, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");  //经过拦截器处理后Session会携带User、token信息
+        if (question.getId() == null) {   //提交新的问题，保存操作
+            question.setCreatorId(user.getId());   //取出并保存用户信息
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModified(question.getGmtCreate());
+            question.setCommentCount(0);
+            question.setViewCount(0);
+            question.setLikeCount(0);
+            questionMapper.addQuestion(question);
+        } else { //修改问题，更新操作
+            //question.setCreatorId(user.getId());   //为什么不写，creator_id的值还是之前的值，而不是null？
+            question.setGmtModified(System.currentTimeMillis());
+            int result = questionMapper.updateQuestion(question);
+            if (result == 0) {
+                throw new MyException(MyExceptionCodeEnum.QUESTION_NOT_UPDATE);
+            }
+        }
+    }
+
+    public void incView(Integer id) {
+        synchronized (this){
+            Question question = questionMapper.findQuestionById(id);
+            questionMapper.addView(question);
+        }
     }
 }

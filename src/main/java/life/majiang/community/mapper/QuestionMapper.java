@@ -1,10 +1,7 @@
 package life.majiang.community.mapper;
 
 import life.majiang.community.model.Question;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -36,5 +33,13 @@ public interface QuestionMapper {
             "values(#{title},#{description},#{creatorId},#{gmtCreate},#{gmtModified},#{tag})")
     void addQuestion(Question question);
 
+    @Update("update `question` set `title` = #{title},`description` = #{description},`gmt_modified` = #{gmtModified},`tag` = #{tag} where id = #{id}")
+    Integer updateQuestion(Question question);
+
+    @Update("update `question` set `view_count` = #{viewCount}+1 where id = #{id}")
+    void addView(Question question);
+
+    @Update("update `question` set `comment_count` = #{commentCount}+1 where id = #{id}")
+    void addComment(Question question);
 
 }

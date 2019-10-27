@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>剑杰社区</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/local.css">
+    <script type="application/javascript" src="/js/jquery-1.12.4.min.js"></script>
+    <script type="application/javascript" src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!--引入标题栏-->
+<div th:replace="~{index::topbar}"></div>
+<div class="jumbotron">
+    <h1>出错了!</h1>
+    错误码：<span th:text="${code}"></span>
+    <p th:text="${message}">请返回</p>
+    <p><a class="btn btn-primary btn-lg" href="/" role="button">返回首页</a></p>
+</div>
+</body>
+</html>

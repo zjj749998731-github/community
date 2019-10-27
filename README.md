@@ -13,3 +13,8 @@
 [Git](https://git-scm.com/)
 [VP](https://www.visual-paradigm.com)
 
+##脚本
+```
+mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+```
+

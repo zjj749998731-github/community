@@ -1,9 +1,9 @@
 package life.majiang.community.mapper;
 
 import life.majiang.community.model.Comment;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface CommentMapper {
@@ -12,8 +12,15 @@ public interface CommentMapper {
             "values(#{parentId},#{type},#{commentatorId},#{gmtCreate},#{gmtModified},#{likeCount},#{content})")
     void addComment(Comment comment);
 
-    @Select("select * from `comment` where `parent_id` = #{parentId}")
-    Comment getCommentByParentId(Integer parentId);
+//    @Select("select * from `comment` where `parent_id` = #{parentId}")
+//    Comment getCommentByParentId(Integer parentId);
 
+    @Select("select * from `comment` where `id` = #{parentId}")
+    Comment getCommentById(Integer parentId);
 
+    @Select("select * from `comment` where `parent_id` = #{parentId} and `type` = #{type} order by `gmt_create` desc")
+    List<Comment> findCommentsByTargetId(@Param("parentId") Integer id, @Param("type") Integer type);
+
+    @Update("update `comment` set `comment_count` = #{commentCount}+1 where id = #{id}")
+    void addCommentCount(Comment comment);
 }

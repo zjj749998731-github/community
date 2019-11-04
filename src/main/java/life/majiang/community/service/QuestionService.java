@@ -87,7 +87,7 @@ public class QuestionService {
             question.setLikeCount(0);
             questionMapper.addQuestion(question);
         } else { //修改问题，更新操作
-            //question.setCreatorId(user.getId());   //为什么不写，creator_id的值还是之前的值，而不是null？
+            //question.setCreatorId(user.getId());   //为什么不写该行代码，creator_id的值还是之前的值，而不是null？
             question.setGmtModified(System.currentTimeMillis());
             int result = questionMapper.updateQuestion(question);
             if (result == 0) {

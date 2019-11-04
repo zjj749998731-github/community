@@ -8,6 +8,16 @@
     <link rel="stylesheet" href="css/local.css">
     <script type="application/javascript" src="js/jquery-1.12.4.min.js"></script>
     <script type="application/javascript" src="js/bootstrap.min.js"></script>
+    <script type="application/javascript">
+        window.onload = function () {  //判断首页（登录页）是否需要关闭
+           // debugger;  //前端打断点的代码
+            var closeable = window.localStorage.getItem("closeable");
+            if (closeable == "true") {
+                window.close();
+                window.localStorage.removeItem("closeable");
+            }
+        };
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-default" th:fragment="topbar">

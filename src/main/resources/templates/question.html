@@ -10,33 +10,145 @@
     <link rel="stylesheet" href="/css/local.css">
     <script type="application/javascript" src="/js/jquery-1.12.4.min.js"></script>
     <script type="application/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="application/javascript" src="/js/local.js"></script>
+    <script type="application/javascript" src="/js/moment.js"></script>
 </head>
 <body>
 <!--引入标题栏-->
 <div th:replace="~{index::topbar}"></div>
 
-<div class="container-fluid main" >
-    <div class="row" >
-        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
-            <h4><span th:text="${question.getTitle()}"></span></h4>
+<div class="container-fluid main">
+    <div class="row">
 
-            <span class="rvt">
-                 作者：<span th:text="${question.getName()}"></span> |
-                 发布时间：<span th:text="${#dates.format(question.getGmtCreate(),'yyyy-MM-dd')}"></span> |
-                 阅读数：<span th:text="${question.getViewCount()}"></span>
-            </span>
-            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question.getDescription()}"></div>
-            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
-            <div >
-                <a href="#" th:href="@{'/publish/' + ${question.getId()}}" class="community-menu" th:if="${session.user !=  null && session.user.getId() == question.getCreatorId()}">
+        <!--左侧页面-->
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <!--正文-->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div style="display: none">
+                    <label>问题序号（隐藏域）:</label>
+                    <input type="text" id="question_id" name="id"
+                           th:value="${question}!=null?${question.getId()}:null"/>
+                </div>
+                <h4 id="question_title"><span th:text="${question.getTitle()}"></span></h4>
+                <span class="rvt">
+                   作者：<span th:text="${question.getName()}"></span> |
+                   发布时间：<span th:text="${#dates.format(question.getGmtCreate(),'yyyy-MM-dd')}"></span> |
+                   阅读数：<span th:text="${question.getViewCount()}"></span>
+                </span>
+                <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question.getDescription()}"></div>
+                <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
+                <a href="#" th:href="@{'/publish/' + ${question.getId()}}" class="community-menu"
+                   th:if="${session.user !=  null && session.user.getId() == question.getCreatorId()}">
                     <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>编辑
                 </a>
             </div>
 
+            <!--回复列表-->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h4><span th:text="${question.getCommentCount()}"></span>个回复</h4>
+                <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-line"/>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:each="comment:${comments}" id="commentList">
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#" th:href="${comment.user.getAvatarUrl()}">
+                                <img class="img-rounded headPic" src="" th:src="${comment.user.getAvatarUrl()}"
+                                     alt="头像">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <span href="#" class="media-heading" th:text="${comment.user.getName()}"></span>
+                            <div th:text="${comment.getContent()}">回复内容</div>
+                            <div class="comment-menu">
+                                <span class="glyphicon glyphicon-thumbs-up comment-icon" aria-hidden="true"></span>
+
+                                <span class="commentIconCount" th:data-id="${comment.getId()}" onclick="showSecondComment(this)">    <!-- th:data-xx 的作用是：在该元素中自定义一个属性，用来存储元素中的某些数据 -->
+                                     <span class="glyphicon glyphicon-comment" aria-hidden="true" id="btn-secondComment"></span>
+                                     <span th:text="${comment.getCommentCount()}"></span>
+                                </span>
+
+
+                                <span style="float: right;color: #999999"
+                                      th:text="${#dates.format(comment.getGmtCreate(),'yyyy-MM-dd')}"></span>
+                            </div>
+
+                             <!--二级回复列表 -->
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 sub-comments collapse " th:id="${'comment-' + comment.getId()}" >
+                                <!-- 二级回复内容写在js中了 -->
+
+                                <!--二级回复输入框-->
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+                                    <input type="text" class="form-control" placeholder="请对该评论进行点评吧！" th:id="${'input-' + comment.getId()}">
+                                    <button type="button" class="btn btn-success " onclick="replySecondComment(this)" th:data-id="${comment.getId()}">评论</button>
+                                </div>
+                            </div>
+
+
+
+                            <!-- 二级评论框(自己的方式，不可行) -->
+                            <!--<div th:each="secondComment:${secondComments}">  &lt;!&ndash; 获取该问题全部一级回复的全部二级回复 &ndash;&gt;-->
+                                 <!--<div th:each="simpleSecondComment:${secondComment}"  >&lt;!&ndash; 获取每个一级回复的二级回复 &ndash;&gt;-->
+                                    <!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 sub-comments collapse "  th:if="${simpleSecondComment.getParentId() == comment.getId()}"   th:id="${'comment-' + simpleSecondComment.getId()}" >-->
+                                        <!--<input type="hidden" th:id="${'perSecondComment-'+ simpleSecondComment.getId()}" th:value="${simpleSecondComment.getId()}">-->
+                                        <!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"  id="secondCommentList">-->
+                                            <!--<div class="media">-->
+                                                <!--<div class="media-left">-->
+                                                    <!--<a href="#" th:href="${simpleSecondComment.user.getAvatarUrl()}">-->
+                                                        <!--<img class="img-rounded headPic" src="" th:src="${simpleSecondComment.user.getAvatarUrl()}"-->
+                                                             <!--alt="头像">-->
+                                                    <!--</a>-->
+                                                <!--</div>-->
+                                                <!--<div class="media-body">-->
+                                                    <!--<span href="#" class="media-heading" th:text="${simpleSecondComment.user.getName()}"></span>-->
+                                                    <!--<div th:text="${simpleSecondComment.getContent()}">回复内容</div>-->
+                                                    <!--<div class="comment-menu">-->
+                                                        <!--<span style="float: right;color: #999999"-->
+                                                            <!--th:text="${#dates.format(simpleSecondComment.getGmtCreate(),'yyyy-MM-dd')}"></span>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                             <!--</div>-->
+                                        <!--</div>-->
+                                        <!--&lt;!&ndash;二级评论输入框&ndash;&gt;-->
+                                        <!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >-->
+                                            <!--<input type="text" class="form-control" placeholder="请对该评论进行点评吧！" th:id="${'input-' + comment.getId()}">-->
+                                            <!--<button type="button" class="btn btn-success " onclick="replySecondComment(this)" th:data-id="${comment.getId()}">评论</button>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                 <!--</div>-->
+                            <!--</div>-->
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--回复输入框-->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h4>提交回复</h4>
+                <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-line"/>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="comment_section">
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="#" th:href="${question.getAvatarUrl()}">
+                                <img class="img-rounded headPic" src="" th:src="${question.getAvatarUrl()}" alt="头像">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <span href="#" class="media-heading picName" th:text="${question.getName()}"></span>
+                        </div>
+                    </div>
+                    <textarea class="form-control comment" rows="6" name="content"></textarea>
+                    <button type="button" class="btn btn-success btn-comment">回复</button>
+                </div>
+            </div>
 
         </div>
 
+        <!--右侧页面-->
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h4>发起人</h4>
@@ -47,7 +159,7 @@
                         </a>
                     </div>
                     <div class="media-body">
-                        <span href="#" class="media-heading" th:text="${question.getName()}"></span>
+                        <span href="#" class="media-heading picName" th:text="${question.getName()}"></span>
                     </div>
                 </div>
             </div>
@@ -58,7 +170,6 @@
         </div>
     </div>
 </div>
-
 
 
 </body>

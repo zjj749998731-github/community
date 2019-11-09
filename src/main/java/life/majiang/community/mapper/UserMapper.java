@@ -29,5 +29,4 @@ public interface UserMapper {
     @Delete("DELETE FROM `user` WHERE `token` = #{token}")
     void deleteUser(String token);
 
-
 }

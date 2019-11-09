@@ -50,8 +50,12 @@ public class QuestionController {
 //        System.out.println(secondComments);
 //        model.addAttribute("secondComments",secondComments);
 
+        //获取与原问题相关的问题
+        List<Question> relatedQuestions = questionService.findRelatedQuestions(question);
+
         model.addAttribute("question",question);
         model.addAttribute("comments",comments);
+        model.addAttribute("relatedQuestions",relatedQuestions);
 
         return "question";
     }

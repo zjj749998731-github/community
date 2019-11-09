@@ -12,9 +12,6 @@ public interface CommentMapper {
             "values(#{parentId},#{type},#{commentatorId},#{gmtCreate},#{gmtModified},#{likeCount},#{content})")
     void addComment(Comment comment);
 
-//    @Select("select * from `comment` where `parent_id` = #{parentId}")
-//    Comment getCommentByParentId(Integer parentId);
-
     @Select("select * from `comment` where `id` = #{parentId}")
     Comment getCommentById(Integer parentId);
 
@@ -23,4 +20,5 @@ public interface CommentMapper {
 
     @Update("update `comment` set `comment_count` = #{commentCount}+1 where id = #{id}")
     void addCommentCount(Comment comment);
+
 }

@@ -2,12 +2,16 @@ package life.majiang.community.service;
 
 import life.majiang.community.dto.CommentDTO;
 import life.majiang.community.enums.CommentTypeEnum;
+import life.majiang.community.enums.NotificationStatusEnum;
+import life.majiang.community.enums.NotificationTypeEnum;
 import life.majiang.community.exception.MyException;
 import life.majiang.community.exception.MyExceptionCodeEnum;
 import life.majiang.community.mapper.CommentMapper;
+import life.majiang.community.mapper.NotificationMapper;
 import life.majiang.community.mapper.QuestionMapper;
 import life.majiang.community.mapper.UserMapper;
 import life.majiang.community.model.Comment;
+import life.majiang.community.model.Notification;
 import life.majiang.community.model.Question;
 import life.majiang.community.model.User;
 import org.springframework.beans.BeanUtils;
@@ -30,9 +34,12 @@ public class CommentService {
     @Autowired
     QuestionMapper questionMapper;
 
+    @Autowired
+    NotificationMapper notificationMapper;
+
 
     @Transactional
-    public void addComment(Comment comment) {
+    public void addComment(Comment comment , User commentator) {
         if (comment.getParentId() == null || comment.getParentId() == 0) {      // 先只是单纯地判断该评论是否存在父类(父类指的是一级评论是否从属于某个问题，二级评论是否从属于某个一级评论)，但该参数不一定与数据库中的parent_id一致
             throw new MyException(MyExceptionCodeEnum.TARGET_PARAM_NOT_FOUND);  // "未选中任何问题或评论进行回复！"
         }
@@ -40,30 +47,73 @@ public class CommentService {
             throw new MyException(MyExceptionCodeEnum.TYPE_PARAM_WRONG);                 // "评论类型错误或不存在！"
         }
         if (comment.getType() == CommentTypeEnum.COMMENT.getType()) {
-            //回复一级评论，即该评论为二级评论  (在数据库中：当`type`为2的时候，`parent_id`代表一级回复在回复表中的id )
-            Comment dbComment = commentMapper.getCommentById(comment.getParentId());
-            if (dbComment == null) {  //一级评论不存在了
+            //获取回复的一级评论，即该评论为二级评论  (在数据库中：当`type`为2的时候，`parent_id`代表一级回复在回复表中的id )
+            Comment parentComment = commentMapper.getCommentById(comment.getParentId());
+            if (parentComment == null) {  //一级评论不存在了
                 throw new MyException(MyExceptionCodeEnum.COMMENT_NOT_FOUND);     //"操作的评论已不存在！"
             }
+            //添加二级回复
             commentMapper.addComment(comment);
-
-            //如果要添加二级回复，则其所对应的一级回复中的评论数要加1
             synchronized (this){
-                Comment parentComment = commentMapper.getCommentById(comment.getParentId());
+                //如果添加了二级回复，则其所对应的一级回复中的评论数要加1
                 commentMapper.addCommentCount(parentComment);
+                //根据一级评论的parentId获取对应问题
+                Question question = questionMapper.findQuestionById(parentComment.getParentId());
+                if (question == null) {
+                    throw new MyException(MyExceptionCodeEnum.QUESTION_NOT_FOUND);
+                }
+                /**
+                 * 现用户回复了原问题的一级回复，则原问题用户要添加通知
+                 * 不论是通知是一级回复或者是二级回复，都跳转到对应的问题页面上
+                 * 所以，通知的type不论是1还是2，outerId都是问题本身的id
+                 */
+                this.addNotification(comment,parentComment.getCommentatorId(),commentator.getName(),question.getTitle(),question.getId());
             }
+
         } else {
-            //回复问题本身，即该评论为一级评论  (在数据库中：当`type`为1的时候，`parent_id`代表问题表中该问题的id )
+            //获取回复的问题本身，即该评论为一级评论  (在数据库中：当`type`为1的时候，`parent_id`代表问题表中该问题的id )
             Question question = questionMapper.findQuestionById(comment.getParentId());
             if (question == null) {   //问题本身不存在了
                 throw new MyException(MyExceptionCodeEnum.QUESTION_NOT_FOUND);     //"操作的问题已不存在！"
             }
+            //添加一级回复
             commentMapper.addComment(comment);
             synchronized (this) {
+                //如果添加了一级回复，则其所对应的问题中的评论数要加1
                 questionMapper.addComment(question);
+                /**
+                 * 现用户回复了原问题的用户，则原问题用户要添加通知
+                 * 不论是通知是一级回复或者是二级回复，都跳转到对应的问题页面上
+                 * 所以，通知的type不论是1还是2，outerId都是问题本身的id
+                 */
+                this.addNotification(comment,question.getCreatorId(),commentator.getName(),question.getTitle(),question.getId());
             }
         }
 
+    }
+
+    /**
+     * 在添加回复的同时，要进行通知的操作
+     * @param comment
+     * @param receiver
+     * @param notifierName
+     * @param outerTitle
+     */
+    private void addNotification(Comment comment , Integer receiver,String notifierName,String outerTitle,Integer outerId){
+        Notification notification = new Notification();
+        notification.setGmtCreate(System.currentTimeMillis());
+        if (comment.getType() == 1){
+            notification.setType(NotificationTypeEnum.REPLY_QUESTION.getType());
+        }else if (comment.getType() == 2){
+            notification.setType(NotificationTypeEnum.REPLY_COMMENT.getType());
+        }
+        notification.setOuterId(outerId);
+        notification.setOuterTitle(outerTitle);           //此视频的想法是：通知都是针对问题发布者而言的 ---- 一级回复当然要通知问题发布者；二级回复也是要通知问题发布者，而不是一级回复的发布者
+        notification.setNotifier(comment.getCommentatorId());   //现用户（当前登录者，即一级回复的创建者 或 二级回复的创建者）
+        notification.setNotifierName(notifierName);      //现用户的名字
+        notification.setReceiver(receiver);                     //原用户（              问题的创建者     或 一级回复的创建者）
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+        notificationMapper.addNotification(notification);
     }
 
 

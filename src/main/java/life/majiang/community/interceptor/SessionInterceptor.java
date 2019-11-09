@@ -2,6 +2,7 @@ package life.majiang.community.interceptor;
 
 import life.majiang.community.mapper.UserMapper;
 import life.majiang.community.model.User;
+import life.majiang.community.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -17,6 +18,9 @@ public class SessionInterceptor implements HandlerInterceptor {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    NotificationService notificationService;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         User user = null;
@@ -27,8 +31,10 @@ public class SessionInterceptor implements HandlerInterceptor {
                     String token = cookie.getValue();
                     user = userMapper.findByToken(token);
                     if(user != null){
-                        request.getSession().setAttribute("user",user);    //前端页面需要Session
+                        request.getSession().setAttribute("user",user);    //前端页面的数据需要存放到Session中
                         request.getSession().setAttribute("token",token);
+                        Integer unReadCount = notificationService.countNotification(user.getId());  //"最新回复"的小数字
+                        request.getSession().setAttribute("unReadCount",unReadCount);
                     }
                     break;
                 }

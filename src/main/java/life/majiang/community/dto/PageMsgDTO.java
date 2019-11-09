@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class PageMsgDTO {
-    List<Question> questionList;
+public class PageMsgDTO<T> {
+    List<T> dataList;
     /**
      * 正式开发中，后端只要返回给前端List<Question>以及总数、当前页、页大小等就可以了。此处，把前端的部分分页功能也写到后端了
-     * 下列属性是为了做页面回显的
+     * 下列属性是用来做页面回显的
      */
     private boolean showFirstPage;
     private boolean showPreviousPage;
@@ -20,7 +20,8 @@ public class PageMsgDTO {
     private Integer selectedPage;
     private Integer totalPage;
     private List<Integer> pages = new ArrayList<>();  //分页图标里的数字
-    private Integer totalCount;   //标记我的问题的小数字
+    private Integer totalCount;   //标记"我的问题"的小数字
+    private Integer unReadCount;  //标记"最新回复"的小数字
 
     public void setPageMsg(Integer totalPage,Integer page) {
         //为当前页码高亮做准备

@@ -3,13 +3,16 @@ package life.majiang.community.service;
 import life.majiang.community.dto.PageMsgDTO;
 import life.majiang.community.exception.MyException;
 import life.majiang.community.exception.MyExceptionCodeEnum;
+import life.majiang.community.mapper.NotificationMapper;
 import life.majiang.community.mapper.QuestionMapper;
 import life.majiang.community.model.Question;
 import life.majiang.community.model.User;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,7 +23,10 @@ public class QuestionService {
     @Autowired
     QuestionMapper questionMapper;
 
-    public PageMsgDTO getQuestionList(Integer page, Integer pageSize) {
+    @Autowired
+    NotificationMapper notificationMapper;
+
+    public PageMsgDTO<Question> getQuestionList(Integer page, Integer pageSize) {
         Integer totalCount = questionMapper.getTotalCount(); //总数
         Integer totalPage;  //总页数
         if (totalCount % pageSize == 0) {
@@ -36,15 +42,15 @@ public class QuestionService {
         }
         int offset = (page - 1) * pageSize;  //任意页的第一行，即起始偏移量
         List<Question> questions = questionMapper.findQuestions(offset, pageSize);
-
-        PageMsgDTO pageMsgDTO = new PageMsgDTO();
-        pageMsgDTO.setQuestionList(questions);
+        PageMsgDTO<Question> pageMsgDTO = new PageMsgDTO<>();
+        pageMsgDTO.setDataList(questions);
         pageMsgDTO.setPageMsg(totalPage,page); //根据总数、总页数、当前页码、页面大小，获取分页的其他信息
         return  pageMsgDTO;
     }
 
-    public PageMsgDTO getMyQuestionList(Integer id, Integer page, Integer pageSize) {
-        Integer totalCount = questionMapper.getMyTotalCount(id); //我的问题总数
+    public PageMsgDTO<Question> getMyQuestionList(Integer id, Integer page, Integer pageSize) {
+        Integer totalCount = questionMapper.getMyTotalCount(id);   //"我的问题"的小数字
+        Integer unReadCount = notificationMapper.countNotification(id);  //"最新回复"的小数字
         Integer totalPage;  //总页数
         if (totalCount % pageSize == 0) {
             totalPage = totalCount / pageSize;
@@ -58,10 +64,15 @@ public class QuestionService {
             page = totalPage;
         }
         Integer offset = (page - 1) * pageSize;  //任意页的第一行，即起始偏移量
-        List<Question> questions = questionMapper.findMyQuestions(id,offset, pageSize); //对我的问题进行分页
-        PageMsgDTO pageMsgDTO = new PageMsgDTO();
-        pageMsgDTO.setQuestionList(questions);
+        List<Question> questions = questionMapper.findMyQuestions(id,offset, pageSize); //对"我的问题"进行分页
+        PageMsgDTO<Question> pageMsgDTO = new PageMsgDTO<>();
+        pageMsgDTO.setDataList(questions);
         pageMsgDTO.setTotalCount(totalCount);
+        if (unReadCount == 0){
+            pageMsgDTO.setUnReadCount(0);
+        }else {
+            pageMsgDTO.setUnReadCount(unReadCount);
+        }
         pageMsgDTO.setPageMsg(totalPage,page); //根据总数、总页数、当前页码、页面大小，获取分页的其他信息
         return pageMsgDTO;
     }
@@ -101,5 +112,16 @@ public class QuestionService {
             Question question = questionMapper.findQuestionById(id);
             questionMapper.addView(question);
         }
+    }
+
+    public List<Question> findRelatedQuestions(Question question) {
+        if (StringUtils.isBlank(question.getTag())){
+            return new ArrayList<>();
+        }
+        String regexpTag = question.getTag().replaceAll(",","|");
+        Question regexpQuestion = new Question();
+        regexpQuestion.setId(question.getId());
+        regexpQuestion.setTag(regexpTag);
+        return questionMapper.findRelatedQuestions(regexpQuestion);
     }
 }

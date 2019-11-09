@@ -17,6 +17,7 @@ $(document).ready(function () {
         //     $(".collapse").toggle();
         // });
 
+
     }
 );
 
@@ -55,7 +56,8 @@ function callback(result) {
             var doLogin = confirm(result.message);
             if (doLogin) {
                 window.open("https://github.com/login/oauth/authorize?client_id=8543c922478e7c7fe5ca&redirect_uri=http://localhost:8887/callback&scope=user&state=1");
-                window.localStorage.setItem("closeable", "true");  //将某些服务器用不到的信息直接存储到页面中去，使用localStorage 和 sessionStorage
+                //将某些服务器用不到的信息直接存储到浏览器中去，使用localStorage 和 sessionStorage
+                window.localStorage.setItem("closeable", "true");  //关闭新打开的页面
             }
         } else {
             alert(result.message);
@@ -136,8 +138,6 @@ function showSecondComment(e) {
 }
 
 
-
-
 /**
  * 提交一级回复的二级回复
  */
@@ -145,4 +145,62 @@ function replySecondComment(e) {
     var commentId = e.getAttribute("data-id");
     var content = $("#input-" + commentId).val();
     replyQuestionOrComment(commentId,2,content);
+}
+
+
+
+/**
+ * 点击标签时可以放入标签框中
+ */
+function selectTag(e) {
+    var tagValue = e.getAttribute("data-tag");
+    var previous = $("#tag").val();
+    if (previous.indexOf(tagValue) != -1 ){
+        $("#tag").val(previous);
+    }else {
+        if (previous){
+            $("#tag").val(previous + ',' + tagValue);
+        }else {
+            $("#tag").val(tagValue);
+        }
+    }
+}
+
+
+/**
+ * 展示标签库
+ */
+function showSelectTags() {
+   // $("#tags").css({"display":"block"});
+    $("#tags").show();
+    $("#msg").hide();
+}
+
+/**
+ * 关闭标签库
+ */
+function closeSelectTags() {
+    //$("#tags").hide();
+}
+
+
+/**
+ * 以下的Ajax只是实现了异步局部刷新"最新回复"后面的那个小数字（自己写的，可以实现功能），但不能跳转问题页面
+ */
+function readNotification(e) {
+    var id = e.getAttribute("data-notificationId");
+    $.ajax({
+        url: "/ajaxRead",
+        type: "GET",
+        contentType: "application/json",   //更改响应头里的Content-Type
+        data: "id="+id,
+        dataType: "json",
+        success: function (result) {
+            //console.log(result);
+           $("#advice").html(result.unReadCount);
+        },
+        error: function (result) {
+            alert("服务异常，请重新回复！");
+        }
+    });
 }

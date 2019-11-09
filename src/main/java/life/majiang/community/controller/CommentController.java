@@ -24,7 +24,7 @@ public class CommentController {
     CommentService commentService;
 
     //提交问题的一级回复或者一级回复的二级回复
-    @ResponseBody  //@ResponseBody会把Java对象自动地序列化成JSON对象，并发送到前端
+    @ResponseBody  //@ResponseBody会把Java对象自动地序列化成JSON对象，并发送到前端Ajax的回调方法里
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
     public Object replyFirstComment(@RequestBody CommentAddDTO commentAddDTO, HttpServletRequest request) {  //@RequestBody会把前端请求传进来的JSON数据自动地反序列化成Java对象
         User user = (User) request.getSession().getAttribute("user");
@@ -43,7 +43,7 @@ public class CommentController {
         comment.setGmtCreate(System.currentTimeMillis());
         comment.setGmtModified(comment.getGmtCreate());
         comment.setCommentatorId(user.getId());
-        commentService.addComment(comment);
+        commentService.addComment(comment,user);
         return ResultDTO.successOf();
     }
 

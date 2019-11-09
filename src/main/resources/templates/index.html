@@ -9,7 +9,7 @@
     <script type="application/javascript" src="js/jquery-1.12.4.min.js"></script>
     <script type="application/javascript" src="js/bootstrap.min.js"></script>
     <script type="application/javascript">
-        window.onload = function () {  //判断首页（登录页）是否需要关闭
+        window.onload = function () {  //加载该页时，先判断该页（登录页）是否需要关闭（原因：local.js中的需求）
            // debugger;  //前端打断点的代码
             var closeable = window.localStorage.getItem("closeable");
             if (closeable == "true") {
@@ -54,7 +54,10 @@
                     </ul>
                 </li>
                 <li th:if="${session.user} != null">
-                    <a href="/publish">发布</a>
+                    <a href="/publish">提问</a>
+                </li>
+                <li th:if="${session.user} != null">
+                    <a href="/profile/replies">通知 <span class="badge" th:text="${session.unReadCount}">通知未读数</span></a>
                 </li>
             </ul>
         </div>
@@ -67,7 +70,7 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
             <h2><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>发现</h2>
             <hr/>
-            <div class="media" th:each="question:${pageMsgDTO.getQuestionList()}">
+            <div class="media" th:each="question:${pageMsgDTO.getDataList()}">
                 <div class="media-left">
                     <a href="#" th:href="${question.getAvatarUrl()}">
                         <img class="img-circle headPic" src="" th:src="${question.getAvatarUrl()}" alt="头像">

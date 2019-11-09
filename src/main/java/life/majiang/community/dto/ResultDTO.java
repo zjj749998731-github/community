@@ -26,6 +26,8 @@ public class ResultDTO<T> {
         return resultDTO;
     }
 
+
+
 //    public static ResultDTO errorOf(MyExceptionCodeEnum myExceptionCodeEnum) {
 //        ResultDTO resultDTO = new ResultDTO();
 //        resultDTO.setCode(myExceptionCodeEnum.getCode());

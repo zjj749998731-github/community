@@ -2,6 +2,7 @@ package life.majiang.community.controller;
 
 import life.majiang.community.dto.PageMsgDTO;
 import life.majiang.community.mapper.UserMapper;
+import life.majiang.community.model.Question;
 import life.majiang.community.service.QuestionDTOService;
 import life.majiang.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class IndexController {
 
         Integer page = Integer.valueOf(strPage);
         Integer pageSize = Integer.valueOf(strPageSize);
-        PageMsgDTO pageMsgDTO = questionService.getQuestionList(page,pageSize);
+        PageMsgDTO<Question> pageMsgDTO = questionService.getQuestionList(page,pageSize);
 //        List<QuestionDTO> questions = questionDTOService.getQuestionDTOList(currentPage,pageSize); //视频采用此方式
         model.addAttribute("pageMsgDTO",pageMsgDTO);
         return "index";

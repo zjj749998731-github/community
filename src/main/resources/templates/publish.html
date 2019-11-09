@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/local.css">
     <script type="application/javascript" src="/js/jquery-1.12.4.min.js"></script>
     <script type="application/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="application/javascript" src="/js/local.js"></script>
     <script type="text/javascript">
         function check(){
             var nloginUser = document.getElementById("loginUser");
@@ -51,23 +52,51 @@
                     <input type="text" name = "id" th:value="${question}!=null?${question.getId()}:null"/>
                 </div>
                  <!--或者直接写<input type="hidden" name="id" th:value="${question}!=null?${question.getId()}:null"> -->
+
                 <div class="form-group">
                     <label for="title">问题标题（简单扼要）:</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="问题标题" th:value="${question}!=null?${question.getTitle()}:''" >
+                    <input type="text" class="form-control" id="title" name="title" placeholder="问题标题"  autocomplete="off"
+                           th:value="${question}!=null?${question.getTitle()}:''">
                 </div>
+
                 <div class="form-group">
                     <label for="description">问题补充（必填，请参照右侧提示）：</label>
-                    <textarea class="form-control" id="description" name="description" cols="30" rows="10" th:text="${question}!=null?${question.getDescription()}:''"></textarea>
+                    <textarea class="form-control" id="description" name="description" cols="30" rows="10"
+                              th:text="${question}!=null?${question.getDescription()}:''">
+                    </textarea>
                 </div>
+
                 <div class="form-group">
                     <label for="tag">添加标签：</label>
-                    <!--th:text="${question}==null?'':${question.getTag()}"-->
-                    <input type="text" class="form-control" id="tag" name="tag" placeholder="请输入标签，以“，”号隔开" th:value="${question}!=null?${question.getTag()}:''">
+                    <input type="text" class="form-control" id="tag" name="tag" placeholder="请输入标签，以“，”号隔开" autocomplete="off"
+                           th:value="${question}!=null?${question.getTag()}:''" onfocus="showSelectTags()" onblur="closeSelectTags()">
+                    <div id="tags" class="publish-tag-tab">
+                        <!-- 标签头 -->
+                        <ul class="nav nav-tabs" role="tablist" >
+                            <li role="presentation"  th:each="tagHead,tagHeadStat:${tags}" th:class="${tagHeadStat.first ? 'active':''}">
+                                <a href="#home" th:href="${'#'+ tagHead.getCategoryName()}" aria-controls="home" role="tab" data-toggle="tab" th:text="${tagHead.getCategoryName()}">标签头</a>
+                            </li>
+                        </ul>
+
+                        <!-- 标签体 -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane " id="home" th:id="${tagBody.getCategoryName()}" th:each="tagBody,tagBodyStat:${tags}" th:class="${tagBodyStat.first ? 'tab-pane active':'tab-pane'}">
+                                <span class="label label-info" th:each="everyTag:${tagBody.getTags()}">
+                                    <span class="glyphicon glyphicon-tags clickTag" onclick="selectTag(this)" th:data-tag="${everyTag}" th:text="${' '+ everyTag}">各个标签</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <!--<span class="btn btn-primary" th:if="${msg}!= null" th:text="${msg}">我采用了上面的js警告框方式</span>-->
+                <!--下面这个div纯粹是为了做JS里面的验证而写的-->
                 <div id = "isLogin">
                     <input  id="loginUser" type="text"  th:value="${session.user}"/>
                 </div>
-                <!--<span class="btn btn-primary" th:if="${msg}!= null" th:text="${msg}">我采用了上面的js警告框方式</span>-->
+                <div id = "msg">
+                    <span th:text="${msg}" style="color: red"></span>
+                </div>
                 <button type="submit" class="btn btn-success">确认发布</button>
             </form>
         </div>

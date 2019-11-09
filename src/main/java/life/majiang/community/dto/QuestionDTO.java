@@ -4,7 +4,8 @@ import life.majiang.community.model.User;
 import lombok.Data;
 
 /**
- * 视频采用该QuestionDTO，而我没有用到此类
+ * DTO是专门用来从后台向前端封装数据并传输的类
+ * 视频采用该QuestionDTO，而我没有用到此类（注：以后开发要改用DTO类）
  */
 @Data
 public class QuestionDTO {

@@ -1,5 +1,6 @@
 package life.majiang.community.mapper;
 
+import life.majiang.community.dto.QuestionQueryDTO;
 import life.majiang.community.model.Question;
 import org.apache.ibatis.annotations.*;
 
@@ -8,11 +9,14 @@ import java.util.List;
 @Mapper
 public interface QuestionMapper {
 
-    @Select("select count(1) from `question`")
-    Integer getTotalCount();
+//    @Select("select count(1) from `question`")
+//    Integer getTotalCount();
+    Integer countBySearch(QuestionQueryDTO questionQueryDTO);
 
     @Select("select q.*,u.avatar_url from `question` q inner join `user` u on q.creator_id = u.id order by `gmt_create` desc limit #{offset},#{pageSize}")
     List<Question> findQuestions(@Param(value = "offset") Integer offset, @Param(value = "pageSize")Integer pageSize);
+    List<Question> findQuestionsBySearch(QuestionQueryDTO questionQueryDTO);
+
 
     @Select("select count(1) from `question` where `creator_id` = #{id}")
     Integer getMyTotalCount(Integer id);
@@ -46,5 +50,8 @@ public interface QuestionMapper {
             "from `question` q inner join `user` u on q.creator_id = u.id " +
             "WHERE q.tag regexp #{tag} and q.id != #{id}")
     List<Question> findRelatedQuestions(Question question);
+
+
+
 
 }

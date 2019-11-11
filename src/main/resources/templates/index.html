@@ -17,9 +17,19 @@
                 window.localStorage.removeItem("closeable");
             }
         };
+
+        function searchCheck() {
+            var search = $(".form-control").val();
+            //alert(search);
+            if (!search){
+                return false;
+            }
+        }
     </script>
 </head>
+
 <body>
+<!-- 页头 -->
 <nav class="navbar navbar-default" th:fragment="topbar">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -30,9 +40,9 @@
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <form class="navbar-form navbar-left">
+            <form class="navbar-form navbar-left" action="/" method="get" onsubmit="return searchCheck()">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="搜索问题">
+                    <input type="text" class="form-control" name="search" placeholder="搜索问题" th:value="${search}">
                 </div>
                 <button type="submit" class="btn btn-default">搜索</button>
             </form>
@@ -64,6 +74,8 @@
     </div>
 </nav>
 
+
+<!-- 主体 -->
 <div class="container-fluid main" >
     <div class="row" >
         <!--栅格系统: 随着屏幕或视口尺寸的增加，系统会自动分为最多12列。适应手机、平板、电脑等不同客户端尺寸的需求-->
@@ -89,27 +101,27 @@
             <nav aria-label="Page navigation ">
                 <ul class="pagination fytb">
                     <li th:if="${pageMsgDTO.showFirstPage}">
-                        <a href="#" aria-label="Previous" th:href="@{/(page=1)}">
+                        <a href="#" aria-label="Previous" th:href="@{/(page=1, search = ${search} )}">
                             <span aria-hidden="true">&lt;&lt;</span>
                         </a>
                     </li>
                     <li th:if="${pageMsgDTO.showPreviousPage}">
-                        <a href="#" aria-label="Previous" th:href="@{/(page=${pageMsgDTO.getSelectedPage() - 1})}">
+                        <a href="#" aria-label="Previous" th:href="@{/(page=${pageMsgDTO.getSelectedPage() - 1}, search = ${search})}">
                             <span aria-hidden="true">&lt;</span>
                         </a>
                     </li>
 
                     <li th:each="page:${pageMsgDTO.getPages()}" th:class="${pageMsgDTO.getSelectedPage() == page}?'active':''">
-                        <a href="#" th:text="${page}" th:href="@{/(page=${page})}" >页码</a>
+                        <a href="#" th:text="${page}" th:href="@{/(page=${page}, search = ${search})}" >页码</a>
                     </li>
 
                     <li th:if="${pageMsgDTO.showNextPage}">
-                        <a href="#" aria-label="Next" th:href="@{/(page=${pageMsgDTO.getSelectedPage() + 1})}">
+                        <a href="#" aria-label="Next" th:href="@{/(page=${pageMsgDTO.getSelectedPage() + 1}, search = ${search})}">
                             <span aria-hidden="true">&gt;</span>
                         </a>
                     </li>
                     <li th:if="${pageMsgDTO.showLastPage}">
-                        <a href="#" aria-label="Next" th:href="@{/(page=${pageMsgDTO.totalPage})}">
+                        <a href="#" aria-label="Next" th:href="@{/(page=${pageMsgDTO.totalPage}, search = ${search})}">
                             <span aria-hidden="true">&gt;&gt;</span>
                         </a>
                     </li>
@@ -119,12 +131,19 @@
 
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <h3>热门话题</h3>
+            <!--图片-->
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12"/>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h4>扫扫我</h4>
+                <img class="img-thumbnail question-wechat" src="/images/logo.png"/>
+            </div>
         </div>
     </div>
 
-
-
 </div>
+
+<!-- 页尾 -->
+<div th:replace="~{footer::copyright}"></div>
 
 
 

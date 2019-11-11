@@ -1,6 +1,7 @@
 package life.majiang.community.service;
 
 import life.majiang.community.dto.PageMsgDTO;
+import life.majiang.community.dto.QuestionQueryDTO;
 import life.majiang.community.exception.MyException;
 import life.majiang.community.exception.MyExceptionCodeEnum;
 import life.majiang.community.mapper.NotificationMapper;
@@ -26,22 +27,38 @@ public class QuestionService {
     @Autowired
     NotificationMapper notificationMapper;
 
-    public PageMsgDTO<Question> getQuestionList(Integer page, Integer pageSize) {
-        Integer totalCount = questionMapper.getTotalCount(); //总数
-        Integer totalPage;  //总页数
-        if (totalCount % pageSize == 0) {
-            totalPage = totalCount / pageSize;
-        } else {
-            totalPage = totalCount / pageSize + 1;
+    public PageMsgDTO<Question> getQuestionList(String search,Integer page, Integer pageSize) {
+        if (StringUtils.isNotBlank(search)){
+            search = search.replaceAll(" ","|");
         }
-        //设置页码异常时的值
-        if(page <= 0){
+        if (StringUtils.isBlank(search)){
+            search = ".";
+        }
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+        Integer totalCount = questionMapper.countBySearch(questionQueryDTO); //总数
+        Integer totalPage;  //总页数
+        if (totalCount == null || totalCount == 0){
+            totalCount = 0;
+            totalPage = 1;
             page = 1;
-        }else if(page > totalPage){
-            page = totalPage;
+        } else {
+            if (totalCount % pageSize == 0) {
+                totalPage = totalCount / pageSize;
+            } else {
+                totalPage = totalCount / pageSize + 1;
+            }
+            //设置页码异常时的值
+            if(page <= 0){
+                page = 1;
+            }else if(page > totalPage){
+                page = totalPage;
+            }
         }
         int offset = (page - 1) * pageSize;  //任意页的第一行，即起始偏移量
-        List<Question> questions = questionMapper.findQuestions(offset, pageSize);
+        questionQueryDTO.setOffset(offset);
+        questionQueryDTO.setPageSize(pageSize);
+        List<Question> questions = questionMapper.findQuestionsBySearch(questionQueryDTO);
         PageMsgDTO<Question> pageMsgDTO = new PageMsgDTO<>();
         pageMsgDTO.setDataList(questions);
         pageMsgDTO.setPageMsg(totalPage,page); //根据总数、总页数、当前页码、页面大小，获取分页的其他信息

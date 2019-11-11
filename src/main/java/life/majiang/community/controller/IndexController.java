@@ -31,13 +31,15 @@ public class IndexController {
     @GetMapping("/")
     public String index(Model model,
                         @RequestParam(required = false, name = "page", defaultValue = "1")String  strPage,
-                        @RequestParam(required = false, name = "pageSize", defaultValue = "5")String strPageSize){
+                        @RequestParam(required = false, name = "pageSize", defaultValue = "5")String strPageSize,
+                        @RequestParam(required = false, name = "search")String search){
 
         Integer page = Integer.valueOf(strPage);
         Integer pageSize = Integer.valueOf(strPageSize);
-        PageMsgDTO<Question> pageMsgDTO = questionService.getQuestionList(page,pageSize);
+        PageMsgDTO<Question> pageMsgDTO = questionService.getQuestionList(search,page,pageSize);
 //        List<QuestionDTO> questions = questionDTOService.getQuestionDTOList(currentPage,pageSize); //视频采用此方式
         model.addAttribute("pageMsgDTO",pageMsgDTO);
+        model.addAttribute("search",search);
         return "index";
     }
 

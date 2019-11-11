@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="life.majiang.community.mapper.QuestionMapper">
+
+    <select id="countBySearch" resultType="java.lang.Integer" parameterType="life.majiang.community.dto.QuestionQueryDTO">
+        select count(*) from `question`
+        <where>
+            <if test="search != null">
+                and title regexp #{search}
+            </if>
+        </where>
+    </select>
+
+    <select id="findQuestionsBySearch" resultType="life.majiang.community.model.Question"
+            parameterType="life.majiang.community.dto.QuestionQueryDTO">
+        select q.*,u.avatar_url
+        from `question` q inner join `user` u on q.creator_id = u.id
+        <where>
+            <if test="search != null">
+                and title regexp #{search}
+            </if>
+        </where>
+        order by `gmt_create` desc
+        limit #{offset},#{pageSize}
+    </select>
+
+</mapper>

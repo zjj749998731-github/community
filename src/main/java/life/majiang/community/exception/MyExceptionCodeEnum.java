@@ -11,6 +11,7 @@ public enum MyExceptionCodeEnum implements ExceptionCodeInterface{
     TARGET_PARAM_NOT_FOUND(4001,"未选中任何问题或评论进行回复！"),
     USER_NOT_LOGIN(4002,"用户未登录，请先登录！"),
     SYSTEM_ERROR(4003,"服务器运行时发生异常！"),
+    FILE_UPLOAD_FAIL(4004,"文件上传失败！"),
     READ_NOTIFICATION_FAIL(5001,"不能读取他人通知！"),
     NOTIFICATION_NOT_FOUND(5002,"通知不存在！")
     ;

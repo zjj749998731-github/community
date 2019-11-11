@@ -100,6 +100,10 @@ public class CommentService {
      * @param outerTitle
      */
     private void addNotification(Comment comment , Integer receiver,String notifierName,String outerTitle,Integer outerId){
+        //如果接受者和当前用户是同一个人，则不需要通知操作
+        if (receiver == comment.getCommentatorId()){
+            return;
+        }
         Notification notification = new Notification();
         notification.setGmtCreate(System.currentTimeMillis());
         if (comment.getType() == 1){

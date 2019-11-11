@@ -5,9 +5,12 @@
     <title>发布 - 剑杰社区</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/editormd.min.css">
+
     <link rel="stylesheet" href="/css/local.css">
     <script type="application/javascript" src="/js/jquery-1.12.4.min.js"></script>
     <script type="application/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="application/javascript" src="/js/editormd.min.js"></script>
     <script type="application/javascript" src="/js/local.js"></script>
     <script type="text/javascript">
         function check(){
@@ -53,32 +56,54 @@
                 </div>
                  <!--或者直接写<input type="hidden" name="id" th:value="${question}!=null?${question.getId()}:null"> -->
 
+                <!-- 问题标题 -->
                 <div class="form-group">
                     <label for="title">问题标题（简单扼要）:</label>
                     <input type="text" class="form-control" id="title" name="title" placeholder="问题标题"  autocomplete="off"
                            th:value="${question}!=null?${question.getTitle()}:''">
                 </div>
 
-                <div class="form-group">
+                <!-- 问题补充 -->
+                <div class="form-group" id="question-editor">
                     <label for="description">问题补充（必填，请参照右侧提示）：</label>
-                    <textarea class="form-control" id="description" name="description" cols="30" rows="10"
+                    <textarea class="form-control" id="description" name="description" cols="30" rows="10" style="display:none;"
                               th:text="${question}!=null?${question.getDescription()}:''">
                     </textarea>
                 </div>
+                <script type="text/javascript">
+                    $(function () {
+                        var editor = editormd("question-editor", {
+                            width: "100%",
+                            height: 350,
+                            path: "/js/lib/",
+                            delay: 0,
+                            watch: false,
+                            placeholder: "请输入问题描述...",
+                            //Markdown文本保存到页面中（在发布页面中编辑Markdown文本，在问题页面上查看Markdown文本）
+                            saveHTMLToTextarea: true,
+                            //上传图片
+                            imageUpload: true,
+                            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                            imageUploadURL: "/file/upload",
+                        });
+                    });
+                </script>
 
+                <!-- 标签 -->
                 <div class="form-group">
+                    <!-- 标签输入框 -->
                     <label for="tag">添加标签：</label>
                     <input type="text" class="form-control" id="tag" name="tag" placeholder="请输入标签，以“，”号隔开" autocomplete="off"
                            th:value="${question}!=null?${question.getTag()}:''" onfocus="showSelectTags()" onblur="closeSelectTags()">
                     <div id="tags" class="publish-tag-tab">
-                        <!-- 标签头 -->
+                        <!-- 标签提示头 -->
                         <ul class="nav nav-tabs" role="tablist" >
                             <li role="presentation"  th:each="tagHead,tagHeadStat:${tags}" th:class="${tagHeadStat.first ? 'active':''}">
                                 <a href="#home" th:href="${'#'+ tagHead.getCategoryName()}" aria-controls="home" role="tab" data-toggle="tab" th:text="${tagHead.getCategoryName()}">标签头</a>
                             </li>
                         </ul>
 
-                        <!-- 标签体 -->
+                        <!-- 标签提示体 -->
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane " id="home" th:id="${tagBody.getCategoryName()}" th:each="tagBody,tagBodyStat:${tags}" th:class="${tagBodyStat.first ? 'tab-pane active':'tab-pane'}">
                                 <span class="label label-info" th:each="everyTag:${tagBody.getTags()}">
@@ -111,6 +136,9 @@
         </div>
     </div>
 </div>
+
+<!-- 页尾 -->
+<div th:replace="~{footer::copyright}"></div>
 
 </body>
 </html>

@@ -26,7 +26,7 @@ public class CommentController {
     //提交问题的一级回复或者一级回复的二级回复
     @ResponseBody  //@ResponseBody会把Java对象自动地序列化成JSON对象，并发送到前端Ajax的回调方法里
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
-    public Object replyFirstComment(@RequestBody CommentAddDTO commentAddDTO, HttpServletRequest request) {  //@RequestBody会把前端请求传进来的JSON数据自动地反序列化成Java对象
+    public Object replyFirstComment(@RequestBody CommentAddDTO commentAddDTO, HttpServletRequest request) {  //@RequestBody会把前端Ajax请求传进来的JSON数据自动地反序列化成Java对象
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
             //throw new MyException(MyExceptionCodeEnum.USER_NOT_LOGIN);  //页面会跳转到error页面，对用户不友好

@@ -48,7 +48,8 @@
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <li th:if="${session.user} == null">  <!--  th:unless="${session.user} != null"-->
-                    <a  href="https://github.com/login/oauth/authorize?client_id=8543c922478e7c7fe5ca&redirect_uri=http://localhost:8887/callback&scope=user&state=1">
+                    <!--<a  href="https://github.com/login/oauth/authorize?client_id=8543c922478e7c7fe5ca&redirect_uri=http://localhost:8887/callback&scope=user&state=1">-->
+                    <a  th:href="@{https://github.com/login/oauth/authorize(client_id = '8543c922478e7c7fe5ca',redirect_uri = ${#httpServletRequest.getRequestURL() + 'callback'},scope='user',state=1)}">
                         登录
                     </a>
                 </li>

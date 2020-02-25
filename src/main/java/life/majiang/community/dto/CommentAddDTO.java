@@ -8,4 +8,5 @@ public class CommentAddDTO {
     private Integer type;
     private String content;
     private Integer commentCount;
+
 }

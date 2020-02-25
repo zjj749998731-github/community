@@ -1,143 +1,29 @@
-2019-11-11 22:52:53.531  INFO 6568 --- [restartedMain] l.m.community.CommunityApplication       : Starting CommunityApplication on HJUU59R5NGKYJVD with PID 6568 (D:\ideaWorkSpace2.5\community\target\classes started by Administrator in D:\ideaWorkSpace2.5\community)
-2019-11-11 22:52:53.531  INFO 6568 --- [restartedMain] l.m.community.CommunityApplication       : No active profile set, falling back to default profiles: default
-2019-11-11 22:52:53.640  INFO 6568 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2019-11-11 22:52:53.640  INFO 6568 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2019-11-11 22:52:53.656  WARN 6568 --- [background-preinit] o.s.h.c.j.Jackson2ObjectMapperBuilder    : For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
-2019-11-11 22:52:57.883  INFO 6568 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8887 (http)
-2019-11-11 22:52:58.024  INFO 6568 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2019-11-11 22:52:58.024  INFO 6568 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.26]
-2019-11-11 22:52:58.086  INFO 6568 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.14] of the APR based Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [1.2.23]
-2019-11-11 22:52:58.086  INFO 6568 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : Loaded APR based Apache Tomcat Native library [1.2.14] using APR version [1.6.2].
-2019-11-11 22:52:58.086  INFO 6568 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
-2019-11-11 22:52:58.086  INFO 6568 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
-2019-11-11 22:52:59.194  INFO 6568 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 1.0.2l  25 May 2017]
-2019-11-11 22:52:59.693  INFO 6568 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2019-11-11 22:52:59.693  INFO 6568 --- [restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 6053 ms
-2019-11-11 22:53:01.565  INFO 6568 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
-2019-11-11 22:53:02.470  INFO 6568 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
-2019-11-11 22:53:03.874  INFO 6568 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2019-11-11 22:53:04.030  INFO 6568 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8887 (http) with context path ''
-2019-11-11 22:53:04.045  INFO 6568 --- [restartedMain] l.m.community.CommunityApplication       : Started CommunityApplication in 13.119 seconds (JVM running for 19.923)
-2019-11-11 22:53:36.056  INFO 6568 --- [http-nio-8887-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2019-11-11 22:53:36.056  INFO 6568 --- [http-nio-8887-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2019-11-11 22:53:36.089  INFO 6568 --- [http-nio-8887-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 33 ms
-2019-11-11 22:53:36.806 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.mapper.UserMapper.findByToken      : ==>  Preparing: SELECT * FROM `user` WHERE `token` = ? 
-2019-11-11 22:53:36.870 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.mapper.UserMapper.findByToken      : ==> Parameters: b3b8eccc-4e5d-48d7-979a-1df21131e57b(String)
-2019-11-11 22:53:36.892 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.mapper.UserMapper.findByToken      : <==      Total: 1
-2019-11-11 22:53:36.929 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.m.N.countNotification              : ==>  Preparing: select count(1) from `notification` where `receiver` = ? and status = 0 
-2019-11-11 22:53:36.929 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.m.N.countNotification              : ==> Parameters: 69(Integer)
-2019-11-11 22:53:36.931 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.m.N.countNotification              : <==      Total: 1
-2019-11-11 22:53:37.751 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.mapper.UserMapper.findByToken      : ==>  Preparing: SELECT * FROM `user` WHERE `token` = ? 
-2019-11-11 22:53:37.751 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.mapper.UserMapper.findByToken      : ==> Parameters: b3b8eccc-4e5d-48d7-979a-1df21131e57b(String)
-2019-11-11 22:53:37.755 DEBUG 6568 --- [http-nio-8887-exec-4] l.m.c.mapper.UserMapper.findByToken      : ==>  Preparing: SELECT * FROM `user` WHERE `token` = ? 
-2019-11-11 22:53:37.755 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.mapper.UserMapper.findByToken      : <==      Total: 1
-2019-11-11 22:53:37.755 DEBUG 6568 --- [http-nio-8887-exec-4] l.m.c.mapper.UserMapper.findByToken      : ==> Parameters: b3b8eccc-4e5d-48d7-979a-1df21131e57b(String)
-2019-11-11 22:53:37.751 DEBUG 6568 --- [http-nio-8887-exec-2] l.m.c.mapper.UserMapper.findByToken      : ==>  Preparing: SELECT * FROM `user` WHERE `token` = ? 
-2019-11-11 22:53:37.755 DEBUG 6568 --- [http-nio-8887-exec-2] l.m.c.mapper.UserMapper.findByToken      : ==> Parameters: b3b8eccc-4e5d-48d7-979a-1df21131e57b(String)
-2019-11-11 22:53:37.757 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.m.N.countNotification              : ==>  Preparing: select count(1) from `notification` where `receiver` = ? and status = 0 
-2019-11-11 22:53:37.757 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.m.N.countNotification              : ==> Parameters: 69(Integer)
-2019-11-11 22:53:37.763 DEBUG 6568 --- [http-nio-8887-exec-6] l.m.c.mapper.UserMapper.findByToken      : ==>  Preparing: SELECT * FROM `user` WHERE `token` = ? 
-2019-11-11 22:53:37.763 DEBUG 6568 --- [http-nio-8887-exec-3] l.m.c.mapper.UserMapper.findByToken      : ==>  Preparing: SELECT * FROM `user` WHERE `token` = ? 
-2019-11-11 22:53:37.763 DEBUG 6568 --- [http-nio-8887-exec-6] l.m.c.mapper.UserMapper.findByToken      : ==> Parameters: b3b8eccc-4e5d-48d7-979a-1df21131e57b(String)
-2019-11-11 22:53:37.764 DEBUG 6568 --- [http-nio-8887-exec-5] l.m.c.mapper.UserMapper.findByToken      : ==>  Preparing: SELECT * FROM `user` WHERE `token` = ? 
-2019-11-11 22:53:37.766 DEBUG 6568 --- [http-nio-8887-exec-5] l.m.c.mapper.UserMapper.findByToken      : ==> Parameters: b3b8eccc-4e5d-48d7-979a-1df21131e57b(String)
-2019-11-11 22:53:37.766 DEBUG 6568 --- [http-nio-8887-exec-2] l.m.c.mapper.UserMapper.findByToken      : <==      Total: 1
-2019-11-11 22:53:37.768 DEBUG 6568 --- [http-nio-8887-exec-2] l.m.c.m.N.countNotification              : ==>  Preparing: select count(1) from `notification` where `receiver` = ? and status = 0 
-2019-11-11 22:53:37.769 DEBUG 6568 --- [http-nio-8887-exec-2] l.m.c.m.N.countNotification              : ==> Parameters: 69(Integer)
-2019-11-11 22:53:37.769 DEBUG 6568 --- [http-nio-8887-exec-3] l.m.c.mapper.UserMapper.findByToken      : ==> Parameters: b3b8eccc-4e5d-48d7-979a-1df21131e57b(String)
-2019-11-11 22:53:37.770 DEBUG 6568 --- [http-nio-8887-exec-2] l.m.c.m.N.countNotification              : <==      Total: 1
-2019-11-11 22:53:37.775 DEBUG 6568 --- [http-nio-8887-exec-6] l.m.c.mapper.UserMapper.findByToken      : <==      Total: 1
-2019-11-11 22:53:37.775 DEBUG 6568 --- [http-nio-8887-exec-6] l.m.c.m.N.countNotification              : ==>  Preparing: select count(1) from `notification` where `receiver` = ? and status = 0 
-2019-11-11 22:53:37.775 DEBUG 6568 --- [http-nio-8887-exec-6] l.m.c.m.N.countNotification              : ==> Parameters: 69(Integer)
-2019-11-11 22:53:37.778 DEBUG 6568 --- [http-nio-8887-exec-6] l.m.c.m.N.countNotification              : <==      Total: 1
-2019-11-11 22:53:37.781 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.m.N.countNotification              : <==      Total: 1
-2019-11-11 22:53:37.783 DEBUG 6568 --- [http-nio-8887-exec-5] l.m.c.mapper.UserMapper.findByToken      : <==      Total: 1
-2019-11-11 22:53:37.784 DEBUG 6568 --- [http-nio-8887-exec-5] l.m.c.m.N.countNotification              : ==>  Preparing: select count(1) from `notification` where `receiver` = ? and status = 0 
-2019-11-11 22:53:37.785 DEBUG 6568 --- [http-nio-8887-exec-5] l.m.c.m.N.countNotification              : ==> Parameters: 69(Integer)
-2019-11-11 22:53:37.786 DEBUG 6568 --- [http-nio-8887-exec-5] l.m.c.m.N.countNotification              : <==      Total: 1
-2019-11-11 22:53:37.873 DEBUG 6568 --- [http-nio-8887-exec-3] l.m.c.mapper.UserMapper.findByToken      : <==      Total: 1
-2019-11-11 22:53:37.874 DEBUG 6568 --- [http-nio-8887-exec-3] l.m.c.m.N.countNotification              : ==>  Preparing: select count(1) from `notification` where `receiver` = ? and status = 0 
-2019-11-11 22:53:37.875 DEBUG 6568 --- [http-nio-8887-exec-3] l.m.c.m.N.countNotification              : ==> Parameters: 69(Integer)
-2019-11-11 22:53:37.876 DEBUG 6568 --- [http-nio-8887-exec-3] l.m.c.m.N.countNotification              : <==      Total: 1
-2019-11-11 22:53:37.907 DEBUG 6568 --- [http-nio-8887-exec-4] l.m.c.mapper.UserMapper.findByToken      : <==      Total: 1
-2019-11-11 22:53:37.907 DEBUG 6568 --- [http-nio-8887-exec-4] l.m.c.m.N.countNotification              : ==>  Preparing: select count(1) from `notification` where `receiver` = ? and status = 0 
-2019-11-11 22:53:37.907 DEBUG 6568 --- [http-nio-8887-exec-4] l.m.c.m.N.countNotification              : ==> Parameters: 69(Integer)
-2019-11-11 22:53:37.907 DEBUG 6568 --- [http-nio-8887-exec-4] l.m.c.m.N.countNotification              : <==      Total: 1
-2019-11-11 22:53:38.172 DEBUG 6568 --- [http-nio-8887-exec-5] l.m.c.mapper.UserMapper.findByToken      : ==>  Preparing: SELECT * FROM `user` WHERE `token` = ? 
-2019-11-11 22:53:38.172 DEBUG 6568 --- [http-nio-8887-exec-5] l.m.c.mapper.UserMapper.findByToken      : ==> Parameters: b3b8eccc-4e5d-48d7-979a-1df21131e57b(String)
-2019-11-11 22:53:38.188 DEBUG 6568 --- [http-nio-8887-exec-5] l.m.c.mapper.UserMapper.findByToken      : <==      Total: 1
-2019-11-11 22:53:38.188 DEBUG 6568 --- [http-nio-8887-exec-5] l.m.c.m.N.countNotification              : ==>  Preparing: select count(1) from `notification` where `receiver` = ? and status = 0 
-2019-11-11 22:53:38.188 DEBUG 6568 --- [http-nio-8887-exec-5] l.m.c.m.N.countNotification              : ==> Parameters: 69(Integer)
-2019-11-11 22:53:38.188 DEBUG 6568 --- [http-nio-8887-exec-5] l.m.c.m.N.countNotification              : <==      Total: 1
-2019-11-11 22:53:38.227 DEBUG 6568 --- [http-nio-8887-exec-8] l.m.c.mapper.UserMapper.findByToken      : ==>  Preparing: SELECT * FROM `user` WHERE `token` = ? 
-2019-11-11 22:53:38.228 DEBUG 6568 --- [http-nio-8887-exec-8] l.m.c.mapper.UserMapper.findByToken      : ==> Parameters: b3b8eccc-4e5d-48d7-979a-1df21131e57b(String)
-2019-11-11 22:53:38.230 DEBUG 6568 --- [http-nio-8887-exec-8] l.m.c.mapper.UserMapper.findByToken      : <==      Total: 1
-2019-11-11 22:53:38.231 DEBUG 6568 --- [http-nio-8887-exec-8] l.m.c.m.N.countNotification              : ==>  Preparing: select count(1) from `notification` where `receiver` = ? and status = 0 
-2019-11-11 22:53:38.231 DEBUG 6568 --- [http-nio-8887-exec-8] l.m.c.m.N.countNotification              : ==> Parameters: 69(Integer)
-2019-11-11 22:53:38.232 DEBUG 6568 --- [http-nio-8887-exec-8] l.m.c.m.N.countNotification              : <==      Total: 1
-2019-11-11 22:53:38.306 DEBUG 6568 --- [http-nio-8887-exec-9] l.m.c.mapper.UserMapper.findByToken      : ==>  Preparing: SELECT * FROM `user` WHERE `token` = ? 
-2019-11-11 22:53:38.306 DEBUG 6568 --- [http-nio-8887-exec-9] l.m.c.mapper.UserMapper.findByToken      : ==> Parameters: b3b8eccc-4e5d-48d7-979a-1df21131e57b(String)
-2019-11-11 22:53:38.306 DEBUG 6568 --- [http-nio-8887-exec-9] l.m.c.mapper.UserMapper.findByToken      : <==      Total: 1
-2019-11-11 22:53:38.306 DEBUG 6568 --- [http-nio-8887-exec-9] l.m.c.m.N.countNotification              : ==>  Preparing: select count(1) from `notification` where `receiver` = ? and status = 0 
-2019-11-11 22:53:38.306 DEBUG 6568 --- [http-nio-8887-exec-9] l.m.c.m.N.countNotification              : ==> Parameters: 69(Integer)
-2019-11-11 22:53:38.306 DEBUG 6568 --- [http-nio-8887-exec-9] l.m.c.m.N.countNotification              : <==      Total: 1
-2019-11-11 22:53:38.336 DEBUG 6568 --- [http-nio-8887-exec-10] l.m.c.mapper.UserMapper.findByToken      : ==>  Preparing: SELECT * FROM `user` WHERE `token` = ? 
-2019-11-11 22:53:38.336 DEBUG 6568 --- [http-nio-8887-exec-10] l.m.c.mapper.UserMapper.findByToken      : ==> Parameters: b3b8eccc-4e5d-48d7-979a-1df21131e57b(String)
-2019-11-11 22:53:38.338 DEBUG 6568 --- [http-nio-8887-exec-10] l.m.c.mapper.UserMapper.findByToken      : <==      Total: 1
-2019-11-11 22:53:38.339 DEBUG 6568 --- [http-nio-8887-exec-10] l.m.c.m.N.countNotification              : ==>  Preparing: select count(1) from `notification` where `receiver` = ? and status = 0 
-2019-11-11 22:53:38.339 DEBUG 6568 --- [http-nio-8887-exec-10] l.m.c.m.N.countNotification              : ==> Parameters: 69(Integer)
-2019-11-11 22:53:38.340 DEBUG 6568 --- [http-nio-8887-exec-10] l.m.c.m.N.countNotification              : <==      Total: 1
-2019-11-11 22:53:38.347 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.mapper.UserMapper.findByToken      : ==>  Preparing: SELECT * FROM `user` WHERE `token` = ? 
-2019-11-11 22:53:38.348 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.mapper.UserMapper.findByToken      : ==> Parameters: b3b8eccc-4e5d-48d7-979a-1df21131e57b(String)
-2019-11-11 22:53:38.349 DEBUG 6568 --- [http-nio-8887-exec-3] l.m.c.mapper.UserMapper.findByToken      : ==>  Preparing: SELECT * FROM `user` WHERE `token` = ? 
-2019-11-11 22:53:38.350 DEBUG 6568 --- [http-nio-8887-exec-3] l.m.c.mapper.UserMapper.findByToken      : ==> Parameters: b3b8eccc-4e5d-48d7-979a-1df21131e57b(String)
-2019-11-11 22:53:38.351 DEBUG 6568 --- [http-nio-8887-exec-4] l.m.c.mapper.UserMapper.findByToken      : ==>  Preparing: SELECT * FROM `user` WHERE `token` = ? 
-2019-11-11 22:53:38.352 DEBUG 6568 --- [http-nio-8887-exec-4] l.m.c.mapper.UserMapper.findByToken      : ==> Parameters: b3b8eccc-4e5d-48d7-979a-1df21131e57b(String)
-2019-11-11 22:53:38.352 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.mapper.UserMapper.findByToken      : <==      Total: 1
-2019-11-11 22:53:38.352 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.m.N.countNotification              : ==>  Preparing: select count(1) from `notification` where `receiver` = ? and status = 0 
-2019-11-11 22:53:38.353 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.m.N.countNotification              : ==> Parameters: 69(Integer)
-2019-11-11 22:53:38.354 DEBUG 6568 --- [http-nio-8887-exec-4] l.m.c.mapper.UserMapper.findByToken      : <==      Total: 1
-2019-11-11 22:53:38.354 DEBUG 6568 --- [http-nio-8887-exec-4] l.m.c.m.N.countNotification              : ==>  Preparing: select count(1) from `notification` where `receiver` = ? and status = 0 
-2019-11-11 22:53:38.354 DEBUG 6568 --- [http-nio-8887-exec-4] l.m.c.m.N.countNotification              : ==> Parameters: 69(Integer)
-2019-11-11 22:53:38.355 DEBUG 6568 --- [http-nio-8887-exec-3] l.m.c.mapper.UserMapper.findByToken      : <==      Total: 1
-2019-11-11 22:53:38.355 DEBUG 6568 --- [http-nio-8887-exec-3] l.m.c.m.N.countNotification              : ==>  Preparing: select count(1) from `notification` where `receiver` = ? and status = 0 
-2019-11-11 22:53:38.356 DEBUG 6568 --- [http-nio-8887-exec-3] l.m.c.m.N.countNotification              : ==> Parameters: 69(Integer)
-2019-11-11 22:53:38.356 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.m.N.countNotification              : <==      Total: 1
-2019-11-11 22:53:38.358 DEBUG 6568 --- [http-nio-8887-exec-3] l.m.c.m.N.countNotification              : <==      Total: 1
-2019-11-11 22:53:38.360 DEBUG 6568 --- [http-nio-8887-exec-7] l.m.c.mapper.UserMapper.findByToken      : ==>  Preparing: SELECT * FROM `user` WHERE `token` = ? 
-2019-11-11 22:53:38.360 DEBUG 6568 --- [http-nio-8887-exec-7] l.m.c.mapper.UserMapper.findByToken      : ==> Parameters: b3b8eccc-4e5d-48d7-979a-1df21131e57b(String)
-2019-11-11 22:53:38.362 DEBUG 6568 --- [http-nio-8887-exec-7] l.m.c.mapper.UserMapper.findByToken      : <==      Total: 1
-2019-11-11 22:53:38.363 DEBUG 6568 --- [http-nio-8887-exec-7] l.m.c.m.N.countNotification              : ==>  Preparing: select count(1) from `notification` where `receiver` = ? and status = 0 
-2019-11-11 22:53:38.364 DEBUG 6568 --- [http-nio-8887-exec-7] l.m.c.m.N.countNotification              : ==> Parameters: 69(Integer)
-2019-11-11 22:53:38.365 DEBUG 6568 --- [http-nio-8887-exec-7] l.m.c.m.N.countNotification              : <==      Total: 1
-2019-11-11 22:53:38.376 DEBUG 6568 --- [http-nio-8887-exec-4] l.m.c.m.N.countNotification              : <==      Total: 1
-2019-11-11 22:53:38.580 DEBUG 6568 --- [http-nio-8887-exec-2] l.m.c.mapper.UserMapper.findByToken      : ==>  Preparing: SELECT * FROM `user` WHERE `token` = ? 
-2019-11-11 22:53:38.581 DEBUG 6568 --- [http-nio-8887-exec-2] l.m.c.mapper.UserMapper.findByToken      : ==> Parameters: b3b8eccc-4e5d-48d7-979a-1df21131e57b(String)
-2019-11-11 22:53:38.586 DEBUG 6568 --- [http-nio-8887-exec-2] l.m.c.mapper.UserMapper.findByToken      : <==      Total: 1
-2019-11-11 22:53:38.587 DEBUG 6568 --- [http-nio-8887-exec-2] l.m.c.m.N.countNotification              : ==>  Preparing: select count(1) from `notification` where `receiver` = ? and status = 0 
-2019-11-11 22:53:38.588 DEBUG 6568 --- [http-nio-8887-exec-2] l.m.c.m.N.countNotification              : ==> Parameters: 69(Integer)
-2019-11-11 22:53:38.589 DEBUG 6568 --- [http-nio-8887-exec-2] l.m.c.m.N.countNotification              : <==      Total: 1
-2019-11-11 22:53:38.641 DEBUG 6568 --- [http-nio-8887-exec-6] l.m.c.mapper.UserMapper.findByToken      : ==>  Preparing: SELECT * FROM `user` WHERE `token` = ? 
-2019-11-11 22:53:38.641 DEBUG 6568 --- [http-nio-8887-exec-6] l.m.c.mapper.UserMapper.findByToken      : ==> Parameters: b3b8eccc-4e5d-48d7-979a-1df21131e57b(String)
-2019-11-11 22:53:38.641 DEBUG 6568 --- [http-nio-8887-exec-6] l.m.c.mapper.UserMapper.findByToken      : <==      Total: 1
-2019-11-11 22:53:38.641 DEBUG 6568 --- [http-nio-8887-exec-6] l.m.c.m.N.countNotification              : ==>  Preparing: select count(1) from `notification` where `receiver` = ? and status = 0 
-2019-11-11 22:53:38.641 DEBUG 6568 --- [http-nio-8887-exec-6] l.m.c.m.N.countNotification              : ==> Parameters: 69(Integer)
-2019-11-11 22:53:38.656 DEBUG 6568 --- [http-nio-8887-exec-6] l.m.c.m.N.countNotification              : <==      Total: 1
-2019-11-11 22:53:38.764 DEBUG 6568 --- [http-nio-8887-exec-5] l.m.c.mapper.UserMapper.findByToken      : ==>  Preparing: SELECT * FROM `user` WHERE `token` = ? 
-2019-11-11 22:53:38.764 DEBUG 6568 --- [http-nio-8887-exec-5] l.m.c.mapper.UserMapper.findByToken      : ==> Parameters: b3b8eccc-4e5d-48d7-979a-1df21131e57b(String)
-2019-11-11 22:53:38.766 DEBUG 6568 --- [http-nio-8887-exec-5] l.m.c.mapper.UserMapper.findByToken      : <==      Total: 1
-2019-11-11 22:53:38.766 DEBUG 6568 --- [http-nio-8887-exec-5] l.m.c.m.N.countNotification              : ==>  Preparing: select count(1) from `notification` where `receiver` = ? and status = 0 
-2019-11-11 22:53:38.766 DEBUG 6568 --- [http-nio-8887-exec-5] l.m.c.m.N.countNotification              : ==> Parameters: 69(Integer)
-2019-11-11 22:53:38.767 DEBUG 6568 --- [http-nio-8887-exec-5] l.m.c.m.N.countNotification              : <==      Total: 1
-2019-11-11 22:53:38.770 DEBUG 6568 --- [http-nio-8887-exec-8] l.m.c.mapper.UserMapper.findByToken      : ==>  Preparing: SELECT * FROM `user` WHERE `token` = ? 
-2019-11-11 22:53:38.771 DEBUG 6568 --- [http-nio-8887-exec-8] l.m.c.mapper.UserMapper.findByToken      : ==> Parameters: b3b8eccc-4e5d-48d7-979a-1df21131e57b(String)
-2019-11-11 22:53:38.772 DEBUG 6568 --- [http-nio-8887-exec-8] l.m.c.mapper.UserMapper.findByToken      : <==      Total: 1
-2019-11-11 22:53:38.772 DEBUG 6568 --- [http-nio-8887-exec-8] l.m.c.m.N.countNotification              : ==>  Preparing: select count(1) from `notification` where `receiver` = ? and status = 0 
-2019-11-11 22:53:38.773 DEBUG 6568 --- [http-nio-8887-exec-8] l.m.c.m.N.countNotification              : ==> Parameters: 69(Integer)
-2019-11-11 22:53:38.773 DEBUG 6568 --- [http-nio-8887-exec-8] l.m.c.m.N.countNotification              : <==      Total: 1
-2019-11-11 22:53:38.908 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.mapper.UserMapper.findByToken      : ==>  Preparing: SELECT * FROM `user` WHERE `token` = ? 
-2019-11-11 22:53:38.909 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.mapper.UserMapper.findByToken      : ==> Parameters: b3b8eccc-4e5d-48d7-979a-1df21131e57b(String)
-2019-11-11 22:53:38.910 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.mapper.UserMapper.findByToken      : <==      Total: 1
-2019-11-11 22:53:38.910 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.m.N.countNotification              : ==>  Preparing: select count(1) from `notification` where `receiver` = ? and status = 0 
-2019-11-11 22:53:38.910 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.m.N.countNotification              : ==> Parameters: 69(Integer)
-2019-11-11 22:53:38.911 DEBUG 6568 --- [http-nio-8887-exec-1] l.m.c.m.N.countNotification              : <==      Total: 1
+2019-11-13 16:32:29.161  INFO 1428 --- [restartedMain] l.m.community.CommunityApplication       : Starting CommunityApplication on HJUU59R5NGKYJVD with PID 1428 (D:\ideaWorkSpace2.5\community\target\classes started by Administrator in D:\ideaWorkSpace2.5\community)
+2019-11-13 16:32:29.190  INFO 1428 --- [restartedMain] l.m.community.CommunityApplication       : No active profile set, falling back to default profiles: default
+2019-11-13 16:32:29.518  WARN 1428 --- [background-preinit] o.s.h.c.j.Jackson2ObjectMapperBuilder    : For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
+2019-11-13 16:32:29.629  INFO 1428 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2019-11-13 16:32:29.630  INFO 1428 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2019-11-13 16:32:34.081  INFO 1428 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8887 (http)
+2019-11-13 16:32:34.134  INFO 1428 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-11-13 16:32:34.134  INFO 1428 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.26]
+2019-11-13 16:32:34.159  INFO 1428 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : An older version [1.2.14] of the APR based Apache Tomcat Native library is installed, while Tomcat recommends a minimum version of [1.2.23]
+2019-11-13 16:32:34.159  INFO 1428 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : Loaded APR based Apache Tomcat Native library [1.2.14] using APR version [1.6.2].
+2019-11-13 16:32:34.159  INFO 1428 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+2019-11-13 16:32:34.160  INFO 1428 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2019-11-13 16:32:35.255  INFO 1428 --- [restartedMain] o.a.catalina.core.AprLifecycleListener   : OpenSSL successfully initialized [OpenSSL 1.0.2l  25 May 2017]
+2019-11-13 16:32:35.606  INFO 1428 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-11-13 16:32:35.607  INFO 1428 --- [restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 5977 ms
+2019-11-13 16:32:36.520  INFO 1428 --- [restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2019-11-13 16:32:36.618  INFO 1428 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2019-11-13 16:32:37.676  INFO 1428 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2019-11-13 16:32:37.787  INFO 1428 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8887 (http) with context path ''
+2019-11-13 16:32:37.791  INFO 1428 --- [restartedMain] l.m.community.CommunityApplication       : Started CommunityApplication in 15.745 seconds (JVM running for 23.962)
+2019-11-13 16:38:25.706  INFO 1428 --- [http-nio-8887-exec-4] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2019-11-13 16:38:25.706  INFO 1428 --- [http-nio-8887-exec-4] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2019-11-13 16:38:26.139  INFO 1428 --- [http-nio-8887-exec-4] o.s.web.servlet.DispatcherServlet        : Completed initialization in 433 ms
+2019-11-13 16:38:46.167 DEBUG 1428 --- [http-nio-8887-exec-4] l.m.c.m.QuestionMapper.countBySearch     : ==>  Preparing: select count(*) from `question` WHERE title regexp ? 
+2019-11-13 16:38:46.736 DEBUG 1428 --- [http-nio-8887-exec-4] l.m.c.m.QuestionMapper.countBySearch     : ==> Parameters: .(String)
+2019-11-13 16:38:48.164 DEBUG 1428 --- [http-nio-8887-exec-4] l.m.c.m.QuestionMapper.countBySearch     : <==      Total: 1
+2019-11-13 16:38:48.290 DEBUG 1428 --- [http-nio-8887-exec-4] l.m.c.m.Q.findQuestionsBySearch          : ==>  Preparing: select q.*,u.avatar_url from `question` q inner join `user` u on q.creator_id = u.id WHERE title regexp ? order by `gmt_create` desc limit ?,? 
+2019-11-13 16:38:48.291 DEBUG 1428 --- [http-nio-8887-exec-4] l.m.c.m.Q.findQuestionsBySearch          : ==> Parameters: .(String), 0(Integer), 5(Integer)
+2019-11-13 16:38:49.006 DEBUG 1428 --- [http-nio-8887-exec-4] l.m.c.m.Q.findQuestionsBySearch          : <==      Total: 5
